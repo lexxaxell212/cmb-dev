@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../api';
 import type { Quote } from '../types';
 import Modal from '../components/Modal';
+import ConfirmDialog from '../components/ConfirmDialog';
 import { Button, Field, inputClass } from '../components/ui';
 import { useToast } from '../Toast';
 import { useI18n } from '../i18n';
@@ -15,6 +16,8 @@ export default function Quotes({ onChanged }: { onChanged: () => void }) {
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<{ open: boolean; id: string }>({ open: false, id: '' });
   const [form, setForm] = useState({ ...empty });
+  const [confirmTarget, setConfirmTarget] = useState<Quote | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     api<Quote[]>('/quotes')
@@ -57,14 +60,20 @@ export default function Quotes({ onChanged }: { onChanged: () => void }) {
     }
   };
 
-  const remove = async (q: Quote) => {
-    if (!window.confirm(t('quotes.confirmDelete').replace('{0}', q.text.id))) return;
+  const remove = (q: Quote) => setConfirmTarget(q);
+
+  const confirmRemove = async () => {
+    if (!confirmTarget) return;
+    setDeleting(true);
     try {
-      await api(`/quotes/${encodeURIComponent(q.id)}`, { method: 'DELETE' });
-      toast.success(t('quotes.deleted').replace('{0}', q.text.id));
+      await api(`/quotes/${encodeURIComponent(confirmTarget.id)}`, { method: 'DELETE' });
+      toast.success(t('quotes.deleted').replace('{0}', confirmTarget.text.id));
+      setConfirmTarget(null);
       onChanged();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t('quotes.deleteError'));
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -158,6 +167,15 @@ export default function Quotes({ onChanged }: { onChanged: () => void }) {
           </form>
         </Modal>
       )}
+
+      <ConfirmDialog
+        open={confirmTarget !== null}
+        busy={deleting}
+        title={t('quotes.title')}
+        message={t('quotes.confirmDelete').replace('{0}', confirmTarget?.text.id || '')}
+        onConfirm={confirmRemove}
+        onCancel={() => setConfirmTarget(null)}
+      />
     </section>
   );
 }

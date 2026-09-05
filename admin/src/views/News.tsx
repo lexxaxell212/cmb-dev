@@ -3,6 +3,7 @@ import { api } from '../api';
 import type { NewsItem } from '../types';
 import Modal from '../components/Modal';
 import ImageInput from '../components/ImageInput';
+import ConfirmDialog from '../components/ConfirmDialog';
 import { Alert, Button, Field, inputClass } from '../components/ui';
 import { useToast } from '../Toast';
 import { useI18n } from '../i18n';
@@ -24,6 +25,8 @@ export default function News({ onChanged }: { onChanged: () => void }) {
   const [error, setError] = useState('');
   const [modal, setModal] = useState<{ open: boolean; id: string }>({ open: false, id: '' });
   const [form, setForm] = useState({ ...empty });
+  const [confirmTarget, setConfirmTarget] = useState<NewsItem | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     api<NewsItem[]>('/news')
@@ -73,14 +76,21 @@ export default function News({ onChanged }: { onChanged: () => void }) {
     }
   };
 
-  const remove = async (n: NewsItem) => {
-    if (!window.confirm(t('news.confirmDelete').replace('{0}', n.title.id || n.title.en))) return;
+  const remove = (n: NewsItem) => setConfirmTarget(n);
+
+  const confirmRemove = async () => {
+    if (!confirmTarget) return;
+    setDeleting(true);
     try {
-      await api(`/news/${encodeURIComponent(n.id)}`, { method: 'DELETE' });
-      toast.success(t('news.deleted').replace('{0}', n.title.id || n.title.en));
+      await api(`/news/${encodeURIComponent(confirmTarget.id)}`, { method: 'DELETE' });
+      const label = confirmTarget.title.id || confirmTarget.title.en;
+      toast.success(t('news.deleted').replace('{0}', label));
+      setConfirmTarget(null);
       onChanged();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t('news.deleteError'));
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -248,6 +258,18 @@ export default function News({ onChanged }: { onChanged: () => void }) {
           </form>
         </Modal>
       )}
+
+      <ConfirmDialog
+        open={confirmTarget !== null}
+        busy={deleting}
+        title={t('news.title')}
+        message={t('news.confirmDelete').replace(
+          '{0}',
+          confirmTarget?.title.id || confirmTarget?.title.en || ''
+        )}
+        onConfirm={confirmRemove}
+        onCancel={() => setConfirmTarget(null)}
+      />
     </section>
   );
 }

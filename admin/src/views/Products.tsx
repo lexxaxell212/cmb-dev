@@ -3,6 +3,7 @@ import { api } from '../api';
 import type { Category, Product } from '../types';
 import Modal from '../components/Modal';
 import ImageInput from '../components/ImageInput';
+import ConfirmDialog from '../components/ConfirmDialog';
 import { Alert, Button, Field, inputClass } from '../components/ui';
 import { useToast } from '../Toast';
 import { useI18n } from '../i18n';
@@ -35,6 +36,8 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
     edit: null,
   });
   const [form, setForm] = useState({ ...emptyProduct });
+  const [confirmTarget, setConfirmTarget] = useState<Product | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     api<Product[]>('/products')
@@ -86,14 +89,20 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
     }
   };
 
-  const remove = async (p: Product) => {
-    if (!window.confirm(t('products.confirmDelete').replace('{0}', p.name))) return;
+  const remove = (p: Product) => setConfirmTarget(p);
+
+  const confirmRemove = async () => {
+    if (!confirmTarget) return;
+    setDeleting(true);
     try {
-      await api(`/products/${encodeURIComponent(p.id)}`, { method: 'DELETE' });
-      toast.success(t('products.deleted').replace('{0}', p.name));
+      await api(`/products/${encodeURIComponent(confirmTarget.id)}`, { method: 'DELETE' });
+      toast.success(t('products.deleted').replace('{0}', confirmTarget.name));
+      setConfirmTarget(null);
       onChanged();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t('products.deleteError'));
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -254,6 +263,15 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
           </form>
         </Modal>
       )}
+
+      <ConfirmDialog
+        open={confirmTarget !== null}
+        busy={deleting}
+        title={t('products.title')}
+        message={t('products.confirmDelete').replace('{0}', confirmTarget?.name || '')}
+        onConfirm={confirmRemove}
+        onCancel={() => setConfirmTarget(null)}
+      />
     </section>
   );
 }

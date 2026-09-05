@@ -144,6 +144,7 @@ const id = {
   'common.cancel': 'Batal',
   'common.save': 'Simpan',
   'common.loading': 'Memuat...',
+  'confirm.notUndone': 'Tindakan ini tidak dapat dibatalkan.',
 };
 
 const en: Record<keyof typeof id, string> = {
@@ -286,6 +287,7 @@ const en: Record<keyof typeof id, string> = {
   'common.cancel': 'Cancel',
   'common.save': 'Save',
   'common.loading': 'Loading...',
+  'confirm.notUndone': 'This action cannot be undone.',
 };
 
 export type TranslationKey = keyof typeof id;

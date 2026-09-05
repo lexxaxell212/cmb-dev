@@ -31,12 +31,39 @@ export function isAuthenticated(): boolean {
   return Boolean(getToken());
 }
 
+export function getTokenExpiry(token: string): number | null {
+  try {
+    const payload = token.split('.')[1];
+    if (!payload) return null;
+    const padded = payload.replace(/-/g, '+').replace(/_/g, '/');
+    const json = atob(padded + '='.repeat((4 - (padded.length % 4)) % 4));
+    const { exp } = JSON.parse(json) as { exp?: number };
+    return typeof exp === 'number' ? exp * 1000 : null;
+  } catch {
+    return null;
+  }
+}
+
+export function isTokenExpired(): boolean {
+  const token = getToken();
+  if (!token) return false;
+  const exp = getTokenExpiry(token);
+  return exp !== null && exp <= Date.now();
+}
+
 export class ApiError extends Error {}
 
 let onUnauthorized: (() => void) | null = null;
 export function setOnUnauthorized(fn: (() => void) | null): void {
   onUnauthorized = fn;
 }
+
+export function handleUnauthorized(): void {
+  clearSession();
+  onUnauthorized?.();
+}
+
+const SESSION_EXPIRED_MESSAGE = 'Sesi berakhir. Silakan login ulang.';
 
 export async function api<T = unknown>(
   path: string,
@@ -52,8 +79,8 @@ export async function api<T = unknown>(
   });
 
   if (res.status === 401) {
-    onUnauthorized?.();
-    throw new ApiError('Sesi berakhir. Silakan login ulang.');
+    handleUnauthorized();
+    throw new ApiError(SESSION_EXPIRED_MESSAGE);
   }
 
   let data: unknown = {};
@@ -65,6 +92,14 @@ export async function api<T = unknown>(
 
   if (!res.ok) {
     const message = (data as { error?: string })?.error || `HTTP ${res.status}`;
+    if (
+      /(session|sesi|token|auth|invalid or expired|unauthorized|unauthenticated)/i.test(
+        message
+      )
+    ) {
+      handleUnauthorized();
+      throw new ApiError(SESSION_EXPIRED_MESSAGE);
+    }
     throw new ApiError(message);
   }
 
@@ -102,11 +137,20 @@ export async function uploadImage(file: File): Promise<string> {
     body: form,
   });
   if (res.status === 401) {
-    onUnauthorized?.();
-    throw new ApiError('Sesi berakhir. Silakan login ulang.');
+    handleUnauthorized();
+    throw new ApiError(SESSION_EXPIRED_MESSAGE);
   }
   const data = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
   if (!res.ok || !data.url) {
+    if (
+      !res.ok &&
+      /(session|sesi|token|auth|invalid or expired|unauthorized|unauthenticated)/i.test(
+        data.error || ''
+      )
+    ) {
+      handleUnauthorized();
+      throw new ApiError(SESSION_EXPIRED_MESSAGE);
+    }
     throw new ApiError(data.error || 'Upload gagal');
   }
   return base + data.url;
