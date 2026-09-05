@@ -31,6 +31,7 @@ const id = {
 
   'product.subtitle':
     'Sajian dengan bahan pilihan, diseduh dengan penuh perhatian.',
+  'product.filter': 'Filter',
   'product.category.all': 'Semua',
   'product.category.coffee': 'Kopi',
   'product.category.nonCoffee': 'Non Kopi',
@@ -129,6 +130,7 @@ const en: Record<TranslationKey, string> = {
   'features.cozy.desc': 'Strategic location with a warm atmosphere.',
 
   'product.subtitle': 'Made with selected ingredients, brewed with care.',
+  'product.filter': 'Filter',
   'product.category.all': 'All',
   'product.category.coffee': 'Coffee',
   'product.category.nonCoffee': 'Non Coffee',

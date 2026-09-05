@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Card from './reusable/Card';
 import Skeleton from './reusable/Skeleton';
 import { resolveImage } from '../utils/image';
@@ -64,6 +64,28 @@ export default function Product({
   const { t, lang } = useLanguage();
   const [category, setCategory] = useState<Category>(initialCategory);
   const [query, setQuery] = useState('');
+  const [filterOpen, setFilterOpen] = useState(false);
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!filterOpen) return;
+    const onPointerDown = (e: MouseEvent | TouchEvent) => {
+      if (filterRef.current && !filterRef.current.contains(e.target as Node)) {
+        setFilterOpen(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setFilterOpen(false);
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('touchstart', onPointerDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('touchstart', onPointerDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [filterOpen]);
 
   const filtered = useMemo(() => {
     let list =
@@ -94,44 +116,82 @@ export default function Product({
         </div>
 
         {showFilter && (
-          <div className="flex flex-col items-start gap-3">
-            <div className="flex flex-wrap gap-2">
-              {categoryTabs.map(({ id, labelKey, icon }) => (
+          <div className="flex w-full flex-col items-start gap-3 sm:w-auto">
+            <div className="flex w-full items-stretch gap-2 sm:w-auto sm:flex-nowrap">
+              <div className="relative shrink-0" ref={filterRef}>
                 <button
-                  key={id}
-                  onClick={() => setCategory(id)}
+                  type="button"
+                  onClick={() => setFilterOpen((o) => !o)}
+                  aria-haspopup="listbox"
+                  aria-expanded={filterOpen}
                   className={[
-                    'inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-xs md:text-sm font-label font-bold uppercase tracking-wide transition-all duration-200 cursor-pointer border',
-                    category === id
+                    'inline-flex items-center gap-2 rounded-md border px-4 py-2 text-xs md:text-sm font-label font-bold uppercase tracking-wide transition-all duration-200 cursor-pointer',
+                    filterOpen || category !== 'all'
                       ? 'bg-wood-text text-wood-darkest border-wood-text'
                       : 'bg-wood-dark/40 text-wood-text/75 border-wood-mid/30 hover:bg-wood-dark/60 hover:text-wood-text',
                   ].join(' ')}
                 >
-                  <i className={`fa-solid ${icon} text-base`} aria-hidden="true" />
-                  {t(labelKey)}
+                  <i className="fa-solid fa-sliders text-sm" aria-hidden="true" />
+                  {t('product.filter')}
+                  <i className="fa-solid fa-caret-down text-xs" aria-hidden="true" />
                 </button>
-              ))}
-            </div>
 
-            <div className="relative w-full sm:w-72">
-              <i className="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-wood-text/50" aria-hidden="true" />
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={t('product.searchPlaceholder')}
-                className="w-full rounded-md border border-wood-mid/40 bg-wood-dark/40 py-2 pl-10 pr-9 text-sm text-wood-text placeholder:text-wood-text/40 focus:outline-none focus:border-wood-text"
-              />
-              {query && (
-                <button
-                  type="button"
-                  onClick={() => setQuery('')}
-                  aria-label={t('common.clearSearch')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-wood-text/60 hover:text-wood-text transition-colors cursor-pointer"
-                >
-                  <i className="fa-solid fa-circle-xmark text-base" aria-hidden="true" />
-                </button>
-              )}
+                {filterOpen && (
+                  <div
+                    role="listbox"
+                    aria-label={t('product.filter')}
+                    className="absolute left-0 top-full z-30 mt-2 w-56 overflow-hidden rounded-md border border-wood-mid/50 bg-[#2a1a12] shadow-xl shadow-black/50"
+                  >
+                    {categoryTabs.map(({ id, labelKey, icon }) => {
+                      const active = category === id;
+                      return (
+                        <button
+                          key={id}
+                          role="option"
+                          aria-selected={active}
+                          onClick={() => {
+                            setCategory(id);
+                            setFilterOpen(false);
+                          }}
+                          className={[
+                            'flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-xs md:text-sm font-label font-bold uppercase tracking-wide transition-colors cursor-pointer',
+                            active
+                              ? 'bg-wood-text text-wood-darkest'
+                              : 'text-wood-text/75 hover:bg-wood-dark/70 hover:text-wood-text',
+                          ].join(' ')}
+                        >
+                          <i className={`fa-solid ${icon} w-4 text-sm`} aria-hidden="true" />
+                          <span className="flex-1">{t(labelKey)}</span>
+                          {active && (
+                            <i className="fa-solid fa-check text-xs" aria-hidden="true" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              <div className="relative min-w-0 flex-1 sm:w-72">
+                <i className="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-wood-text/50" aria-hidden="true" />
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder={t('product.searchPlaceholder')}
+                  className="w-full rounded-md border border-wood-mid/40 bg-wood-dark/40 py-2 pl-10 pr-9 text-sm text-wood-text placeholder:text-wood-text/40 focus:outline-none focus:border-wood-text"
+                />
+                {query && (
+                  <button
+                    type="button"
+                    onClick={() => setQuery('')}
+                    aria-label={t('common.clearSearch')}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-wood-text/60 hover:text-wood-text transition-colors cursor-pointer"
+                  >
+                    <i className="fa-solid fa-circle-xmark text-base" aria-hidden="true" />
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         )}
