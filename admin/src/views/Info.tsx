@@ -62,7 +62,7 @@ export default function Info() {
   if (!loaded) return <p className="text-wood-text/60">{t('common.loading')}</p>;
 
   return (
-    <section className="max-w-2xl">
+    <section>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-wood-text">{t('info.title')}</h2>
         <Button onClick={save}>
@@ -74,16 +74,20 @@ export default function Info() {
       {error && <Alert type="error">{error}</Alert>}
 
       <div className="flex flex-col gap-4 rounded-lg border border-wood-mid/40 bg-wood-dark/60 p-5">
-        <Field label={t('info.address')}>
-          <input className={inputClass} value={form.address} onChange={(e) => setField('address')(e.target.value)} />
-        </Field>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label={t('info.phone')}>
-            <input className={inputClass} value={form.phone} onChange={(e) => setField('phone')(e.target.value)} />
+        <div className="grid gap-4 lg:grid-cols-2">
+          <Field label={t('info.address')}>
+            <input className={inputClass} value={form.address} onChange={(e) => setField('address')(e.target.value)} />
           </Field>
-          <Field label={t('info.email')}>
-            <input className={inputClass} value={form.email} onChange={(e) => setField('email')(e.target.value)} />
-          </Field>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label={t('info.phone')}>
+              <input className={inputClass} value={form.phone} onChange={(e) => setField('phone')(e.target.value)} />
+            </Field>
+            <Field label={t('info.email')}>
+              <input className={inputClass} value={form.email} onChange={(e) => setField('email')(e.target.value)} />
+            </Field>
+          </div>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Field label={t('info.whatsapp')}>
             <input className={inputClass} value={form.whatsapp} onChange={(e) => setField('whatsapp')(e.target.value)} />
           </Field>

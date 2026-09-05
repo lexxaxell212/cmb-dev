@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { login, setSession, getBaseUrl, setBaseUrl } from '../api';
+import { login, setSession, getBaseUrl } from '../api';
 import { Button, Field, inputClass } from './ui';
 import { useI18n } from '../i18n';
 
 export default function Login({ onSuccess }: { onSuccess: () => void }) {
   const { t, lang, setLang } = useI18n();
-  const [baseUrl, setBase] = useState(getBaseUrl());
+  const baseUrl = getBaseUrl();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -15,7 +15,6 @@ export default function Login({ onSuccess }: { onSuccess: () => void }) {
     e.preventDefault();
     setError('');
     setBusy(true);
-    setBaseUrl(baseUrl);
     try {
       const result = await login(baseUrl, username, password);
       setSession(result.token, result.username);
@@ -56,15 +55,6 @@ export default function Login({ onSuccess }: { onSuccess: () => void }) {
         )}
 
         <div className="flex flex-col gap-4">
-          <Field label={t('login.apiUrl')}>
-            <input
-              className={inputClass}
-              value={baseUrl}
-              onChange={(e) => setBase(e.target.value)}
-              placeholder="https://coffee-admin.dzfee.id/api"
-              autoComplete="off"
-            />
-          </Field>
           <Field label={t('login.username')}>
             <input
               className={inputClass}
