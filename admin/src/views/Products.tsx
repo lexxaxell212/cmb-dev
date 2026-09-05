@@ -5,12 +5,7 @@ import Modal from '../components/Modal';
 import ImageInput from '../components/ImageInput';
 import { Alert, Button, Field, inputClass } from '../components/ui';
 import { useToast } from '../Toast';
-
-const CATEGORY_LABELS: Record<Category, string> = {
-  coffee: 'Kopi',
-  'non-coffee': 'Non Kopi',
-  pastry: 'Pastry',
-};
+import { useI18n } from '../i18n';
 
 const emptyProduct: Omit<Product, 'id'> = {
   name: '',
@@ -25,6 +20,12 @@ const emptyProduct: Omit<Product, 'id'> = {
 
 export default function Products({ onChanged }: { onChanged: () => void }) {
   const toast = useToast();
+  const { t } = useI18n();
+  const CATEGORY_LABELS: Record<Category, string> = {
+    coffee: t('cat.coffee'),
+    'non-coffee': t('cat.nonCoffee'),
+    pastry: t('cat.pastry'),
+  };
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -38,9 +39,9 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
   useEffect(() => {
     api<Product[]>('/products')
       .then(setProducts)
-      .catch((err) => setError(err instanceof Error ? err.message : 'Gagal memuat produk'))
+      .catch((err) => setError(err instanceof Error ? err.message : t('products.loadError')))
       .finally(() => setLoading(false));
-  }, []);
+  }, [t]);
 
   const openAdd = () => {
     setForm({ ...emptyProduct });
@@ -64,7 +65,7 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim()) {
-      toast.error('Nama produk wajib diisi.');
+      toast.error(t('products.nameRequired'));
       return;
     }
     try {
@@ -73,36 +74,36 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
           method: 'PUT',
           body: JSON.stringify(form),
         });
-        toast.success('Produk diperbarui.');
+        toast.success(t('products.updated'));
       } else {
         await api('/products', { method: 'POST', body: JSON.stringify(form) });
-        toast.success('Produk ditambahkan.');
+        toast.success(t('products.added'));
       }
       setModal({ open: false, id: '', edit: null });
       onChanged();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Gagal menyimpan produk');
+      toast.error(err instanceof Error ? err.message : t('products.saveError'));
     }
   };
 
   const remove = async (p: Product) => {
-    if (!window.confirm(`Hapus produk "${p.name}"?`)) return;
+    if (!window.confirm(t('products.confirmDelete').replace('{0}', p.name))) return;
     try {
       await api(`/products/${encodeURIComponent(p.id)}`, { method: 'DELETE' });
-      toast.success(`Produk "${p.name}" dihapus.`);
+      toast.success(t('products.deleted').replace('{0}', p.name));
       onChanged();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Gagal menghapus produk');
+      toast.error(err instanceof Error ? err.message : t('products.deleteError'));
     }
   };
 
   return (
     <section>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-wood-text">Produk</h2>
+        <h2 className="text-xl font-bold text-wood-text">{t('products.title')}</h2>
         <Button onClick={openAdd}>
           <i className="fa-solid fa-plus text-base" aria-hidden="true" />
-          Tambah Produk
+          {t('products.add')}
         </Button>
       </div>
 
@@ -112,25 +113,25 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-wood-darkest/60 text-left text-xs uppercase tracking-wider text-wood-text/60">
-              <th className="px-4 py-3">Nama</th>
-              <th className="px-4 py-3">Kategori</th>
-              <th className="px-4 py-3">Harga</th>
-              <th className="px-4 py-3">Best Seller</th>
-              <th className="px-4 py-3 text-right">Aksi</th>
+              <th className="px-4 py-3">{t('products.col.name')}</th>
+              <th className="px-4 py-3">{t('products.col.category')}</th>
+              <th className="px-4 py-3">{t('products.col.price')}</th>
+              <th className="px-4 py-3">{t('products.col.bestseller')}</th>
+              <th className="px-4 py-3 text-right">{t('products.col.action')}</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
               <tr>
                 <td colSpan={5} className="px-4 py-6 text-center text-wood-text/60">
-                  Memuat...
+                  {t('common.loading')}
                 </td>
               </tr>
             )}
             {!loading && products.length === 0 && (
               <tr>
                 <td colSpan={5} className="px-4 py-6 text-center text-wood-text/60">
-                  Belum ada produk.
+                  {t('products.empty')}
                 </td>
               </tr>
             )}
@@ -154,11 +155,11 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
                   <div className="flex justify-end gap-2">
                     <Button variant="ghost" onClick={() => openEdit(p)}>
                       <i className="fa-solid fa-pen text-sm" aria-hidden="true" />
-                      Edit
+                      {t('common.edit')}
                     </Button>
                     <Button variant="danger" onClick={() => remove(p)}>
                       <i className="fa-solid fa-trash text-sm" aria-hidden="true" />
-                      Hapus
+                      {t('common.delete')}
                     </Button>
                   </div>
                 </td>
@@ -170,11 +171,11 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
 
       {modal.open && (
         <Modal
-          title={modal.id ? 'Edit Produk' : 'Tambah Produk'}
+          title={modal.id ? t('products.editTitle') : t('products.addTitle')}
           onClose={() => setModal((m) => ({ ...m, open: false }))}
         >
           <form onSubmit={save} className="flex flex-col gap-4">
-            <Field label="Nama">
+            <Field label={t('products.col.name')}>
               <input
                 className={inputClass}
                 value={form.name}
@@ -182,18 +183,18 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
                 required
               />
             </Field>
-            <Field label="Kategori">
+            <Field label={t('products.field.category')}>
               <select
                 className={inputClass}
                 value={form.category}
                 onChange={(e) => setForm({ ...form, category: e.target.value as Category })}
               >
-                <option value="coffee">Kopi</option>
-                <option value="non-coffee">Non Kopi</option>
-                <option value="pastry">Pastry</option>
+                <option value="coffee">{t('cat.coffee')}</option>
+                <option value="non-coffee">{t('cat.nonCoffee')}</option>
+                <option value="pastry">{t('cat.pastry')}</option>
               </select>
             </Field>
-            <Field label="Harga (IDR)">
+            <Field label={t('products.field.price')}>
               <input
                 className={inputClass}
                 type="number"
@@ -204,10 +205,10 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
                 required
               />
             </Field>
-            <Field label="Gambar">
+            <Field label={t('products.field.image')}>
               <ImageInput value={form.image} onChange={(url) => setForm({ ...form, image: url })} />
             </Field>
-            <Field label="Deskripsi (Indonesia)">
+            <Field label={t('products.field.descId')}>
               <textarea
                 className={inputClass}
                 rows={3}
@@ -217,7 +218,7 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
                 }
               />
             </Field>
-            <Field label="Deskripsi (English)">
+            <Field label={t('products.field.descEn')}>
               <textarea
                 className={inputClass}
                 rows={3}
@@ -227,12 +228,12 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
                 }
               />
             </Field>
-            <Field label="Tags (pisahkan dengan koma)">
+            <Field label={t('products.field.tags')}>
               <input
                 className={inputClass}
                 value={form.tags.join(', ')}
                 onChange={(e) =>
-                  setForm({ ...form, tags: e.target.value.split(',').map((t) => t.trim()).filter(Boolean) })
+                  setForm({ ...form, tags: e.target.value.split(',').map((x) => x.trim()).filter(Boolean) })
                 }
               />
             </Field>
@@ -242,13 +243,13 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
                 checked={form.isBestSeller}
                 onChange={(e) => setForm({ ...form, isBestSeller: e.target.checked })}
               />
-              Best Seller
+              {t('products.field.bestseller')}
             </label>
             <div className="flex justify-end gap-2">
               <Button type="button" variant="ghost" onClick={() => setModal((m) => ({ ...m, open: false }))}>
-                Batal
+                {t('common.cancel')}
               </Button>
-              <Button type="submit">Simpan</Button>
+              <Button type="submit">{t('common.save')}</Button>
             </div>
           </form>
         </Modal>

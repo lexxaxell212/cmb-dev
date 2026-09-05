@@ -4,11 +4,13 @@ import type { Quote } from '../types';
 import Modal from '../components/Modal';
 import { Button, Field, inputClass } from '../components/ui';
 import { useToast } from '../Toast';
+import { useI18n } from '../i18n';
 
 const empty = { text: { id: '', en: '' } };
 
 export default function Quotes({ onChanged }: { onChanged: () => void }) {
   const toast = useToast();
+  const { t } = useI18n();
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<{ open: boolean; id: string }>({ open: false, id: '' });
@@ -17,9 +19,9 @@ export default function Quotes({ onChanged }: { onChanged: () => void }) {
   useEffect(() => {
     api<Quote[]>('/quotes')
       .then(setQuotes)
-      .catch((err) => toast.error(err instanceof Error ? err.message : 'Gagal memuat kata-kata'))
+      .catch((err) => toast.error(err instanceof Error ? err.message : t('quotes.loadError')))
       .finally(() => setLoading(false));
-  }, [toast]);
+  }, [toast, t]);
 
   const openAdd = () => {
     setForm({ text: { id: '', en: '' } });
@@ -34,7 +36,7 @@ export default function Quotes({ onChanged }: { onChanged: () => void }) {
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.text.id.trim()) {
-      toast.error('Isi kata-kata dalam Bahasa Indonesia wajib ada.');
+      toast.error(t('quotes.contentRequired'));
       return;
     }
     try {
@@ -43,36 +45,36 @@ export default function Quotes({ onChanged }: { onChanged: () => void }) {
           method: 'PUT',
           body: JSON.stringify(form),
         });
-        toast.success('Kata-kata diperbarui.');
+        toast.success(t('quotes.updated'));
       } else {
         await api('/quotes', { method: 'POST', body: JSON.stringify(form) });
-        toast.success('Kata-kata ditambahkan.');
+        toast.success(t('quotes.added'));
       }
       setModal({ open: false, id: '' });
       onChanged();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Gagal menyimpan kata-kata');
+      toast.error(err instanceof Error ? err.message : t('quotes.saveError'));
     }
   };
 
   const remove = async (q: Quote) => {
-    if (!window.confirm(`Hapus kata-kata "${q.text.id}"?`)) return;
+    if (!window.confirm(t('quotes.confirmDelete').replace('{0}', q.text.id))) return;
     try {
       await api(`/quotes/${encodeURIComponent(q.id)}`, { method: 'DELETE' });
-      toast.success(`Kata-kata "${q.text.id}" dihapus.`);
+      toast.success(t('quotes.deleted').replace('{0}', q.text.id));
       onChanged();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Gagal menghapus kata-kata');
+      toast.error(err instanceof Error ? err.message : t('quotes.deleteError'));
     }
   };
 
   return (
     <section>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-wood-text">Kata-kata Kopi</h2>
+        <h2 className="text-xl font-bold text-wood-text">{t('quotes.title')}</h2>
         <Button onClick={openAdd}>
           <i className="fa-solid fa-plus text-base" aria-hidden="true" />
-          Tambah Kata-kata
+          {t('quotes.add')}
         </Button>
       </div>
 
@@ -80,24 +82,24 @@ export default function Quotes({ onChanged }: { onChanged: () => void }) {
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-wood-darkest/60 text-left text-xs uppercase tracking-wider text-wood-text/60">
-              <th className="px-4 py-3">No</th>
-              <th className="px-4 py-3">Bahasa Indonesia</th>
-              <th className="px-4 py-3">English</th>
-              <th className="px-4 py-3 text-right">Aksi</th>
+              <th className="px-4 py-3">{t('quotes.col.no')}</th>
+              <th className="px-4 py-3">{t('quotes.col.id')}</th>
+              <th className="px-4 py-3">{t('quotes.col.en')}</th>
+              <th className="px-4 py-3 text-right">{t('quotes.col.action')}</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
               <tr>
                 <td colSpan={4} className="px-4 py-6 text-center text-wood-text/60">
-                  Memuat...
+                  {t('common.loading')}
                 </td>
               </tr>
             )}
             {!loading && quotes.length === 0 && (
               <tr>
                 <td colSpan={4} className="px-4 py-6 text-center text-wood-text/60">
-                  Belum ada kata-kata.
+                  {t('quotes.empty')}
                 </td>
               </tr>
             )}
@@ -110,11 +112,11 @@ export default function Quotes({ onChanged }: { onChanged: () => void }) {
                   <div className="flex justify-end gap-2">
                     <Button variant="ghost" onClick={() => openEdit(q)}>
                       <i className="fa-solid fa-pen text-sm" aria-hidden="true" />
-                      Edit
+                      {t('common.edit')}
                     </Button>
                     <Button variant="danger" onClick={() => remove(q)}>
                       <i className="fa-solid fa-trash text-sm" aria-hidden="true" />
-                      Hapus
+                      {t('common.delete')}
                     </Button>
                   </div>
                 </td>
@@ -126,11 +128,11 @@ export default function Quotes({ onChanged }: { onChanged: () => void }) {
 
       {modal.open && (
         <Modal
-          title={modal.id ? 'Edit Kata-kata' : 'Tambah Kata-kata'}
+          title={modal.id ? t('quotes.editTitle') : t('quotes.addTitle')}
           onClose={() => setModal((m) => ({ ...m, open: false }))}
         >
           <form onSubmit={save} className="flex flex-col gap-4">
-            <Field label="Kata-kata (Bahasa Indonesia)">
+            <Field label={t('quotes.field.id')}>
               <textarea
                 className={inputClass}
                 rows={2}
@@ -139,7 +141,7 @@ export default function Quotes({ onChanged }: { onChanged: () => void }) {
                 required
               />
             </Field>
-            <Field label="Kata-kata (English)">
+            <Field label={t('quotes.field.en')}>
               <textarea
                 className={inputClass}
                 rows={2}
@@ -149,9 +151,9 @@ export default function Quotes({ onChanged }: { onChanged: () => void }) {
             </Field>
             <div className="flex justify-end gap-2">
               <Button type="button" variant="ghost" onClick={() => setModal((m) => ({ ...m, open: false }))}>
-                Batal
+                {t('common.cancel')}
               </Button>
-              <Button type="submit">Simpan</Button>
+              <Button type="submit">{t('common.save')}</Button>
             </div>
           </form>
         </Modal>
