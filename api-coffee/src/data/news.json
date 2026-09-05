@@ -1,0 +1,89 @@
+[
+  {
+    "id": "news-1",
+    "title": {
+      "id": "Blend Signature Baru: \"Egi Haluan\"",
+      "en": "New Signature Blend: \"Egi Haluan\""
+    },
+    "date": "2026-08-28",
+    "category": {
+      "id": "Terbaru",
+      "en": "New Arrival"
+    },
+    "excerpt": {
+      "id": "Kami memperkenalkan biji kopi single origin dengan profil cokelat dan buah.",
+      "en": "We introduce a single origin coffee bean with chocolate and fruity notes."
+    },
+    "content": {
+      "id": [
+        "Dengan bangga kami memperkenalkan blend andalan terbaru kami, Egi Haluan. Perpaduan biji kopi dari dataran tinggi Jawa dan Sumatera menghasilkan profil rasa cokelat pekat yang berbalut sentuhan buah tropis.",
+        "Egi Haluan disangrai dalam porsi kecil setiap pekan agar kesegarannya selalu terjaga. Nikmati sebagai espresso, cappuccino, atau pour over dengan resep seduhan khas kami.",
+        "Blend ini tersedia mulai minggu depan di semua outlet dengan harga spesial bagi anggota setia Egi-Coffee."
+      ],
+      "en": [
+        "We are proud to introduce our latest signature blend, Egi Haluan. A combination of beans from the highlands of Java and Sumatra delivers a deep chocolate profile wrapped in tropical fruit notes.",
+        "Egi Haluan is roasted in small batches every week to keep it perfectly fresh. Enjoy it as an espresso, cappuccino, or pour over with our signature brewing recipe.",
+        "This blend will be available starting next week at all outlets with a special price for loyal Egi-Coffee members."
+      ]
+    },
+    "image": ""
+  },
+  {
+    "id": "news-2",
+    "title": {
+      "id": "Grand Opening Cabang Kedua",
+      "en": "Grand Opening of Our Second Branch"
+    },
+    "date": "2026-08-15",
+    "category": {
+      "id": "Acara",
+      "en": "Event"
+    },
+    "excerpt": {
+      "id": "Kabar gembira, Egi-Coffee resmi membuka cabang baru di pusat kota.",
+      "en": "Great news, Egi-Coffee officially opens a new branch downtown."
+    },
+    "content": {
+      "id": [
+        "Kabar gembira! Egi-Coffee resmi membuka cabang kedua di pusat kota Yogyakarta, tepatnya di Jalan Malioboro 88. Ruang yang lebih luas dilengkapi area duduk outdoor yang menghadap langsung ke jalanan bersejarah.",
+        "Selama minggu pertama pembukaan, kami mengadakan workshop brew manual serta potongan 20% untuk semua menu. Barista spesial kami juga siap menjawab pertanyaan seputar biji kopi dan metode seduh.",
+        "Cabang pertama tetap beroperasi penuh. Kami tunggu kunjunganmu di kedua lokasi!"
+      ],
+      "en": [
+        "Great news! Egi-Coffee officially opens its second branch in downtown Yogyakarta, at Jalan Malioboro 88. A wider space with an outdoor seating area facing the historic street.",
+        "During the first week of opening, we are hosting manual brew workshops and offering a 20% discount on all menu items. Our signature baristas will be on hand to answer questions about beans and brewing methods.",
+        "Our first branch remains fully operational. We look forward to seeing you at both locations!"
+      ]
+    },
+    "image": ""
+  },
+  {
+    "id": "news-3",
+    "title": {
+      "id": "Latte Art Competition 2026",
+      "en": "Latte Art Competition 2026"
+    },
+    "date": "2026-07-30",
+    "category": {
+      "id": "Kompetisi",
+      "en": "Competition"
+    },
+    "excerpt": {
+      "id": "Ikuti ajang teknik latte art dengan total hadiah menarik bagi barista muda.",
+      "en": "Join the latte art skills event with exciting prizes for young baristas."
+    },
+    "content": {
+      "id": [
+        "Ikuti Latte Art Competition 2026, ajang adu skill menuangkan susu dan membentuk motif di atas cappuccino. Terbuka untuk barista muda dan penggemar kopi di seluruh Indonesia.",
+        "Pendaftaran gratis sampai 15 September melalui WhatsApp kami. Babak penyisihan digelar di cabang pusat, sementara grand final akan dinilai oleh dewan juri profesional.",
+        "Total hadiah mencapai puluhan juta rupiah plus kesempatan magang di roastery Egi-Coffee. Siapkan latihan terbaikmu!"
+      ],
+      "en": [
+        "Join the Latte Art Competition 2026, a skill showdown of steaming milk and creating designs on top of cappuccinos. Open to young baristas and coffee lovers across Indonesia.",
+        "Registration is free until September 15 via our WhatsApp. The preliminary rounds will be held at our main branch, while the grand final is judged by a panel of professional judges.",
+        "Total prizes reach tens of millions of rupiah plus an internship opportunity at the Egi-Coffee roastery. Get your best practice ready!"
+      ]
+    },
+    "image": ""
+  }
+]

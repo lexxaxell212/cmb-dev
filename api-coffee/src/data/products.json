@@ -1,0 +1,170 @@
+[
+  {
+    "id": "espresso",
+    "name": "Espresso",
+    "category": "coffee",
+    "price": 18000,
+    "currency": "IDR",
+    "image": "",
+    "description": {
+      "id": "Ekstrak kopi murni dengan crema tebal dan rasa bold yang menenangkan.",
+      "en": "Pure coffee extraction with a thick crema and a comforting bold taste."
+    },
+    "tags": ["Bold", "Classic"],
+    "isBestSeller": true
+  },
+  {
+    "id": "americano",
+    "name": "Americano",
+    "category": "coffee",
+    "price": 20000,
+    "currency": "IDR",
+    "image": "",
+    "description": {
+      "id": "Espresso dengan air panas, ringan namun tetap berkarakter.",
+      "en": "Espresso with hot water, light yet full of character."
+    },
+    "tags": ["Smooth"],
+    "isBestSeller": false
+  },
+  {
+    "id": "caffe-latte",
+    "name": "Caffè Latte",
+    "category": "coffee",
+    "price": 25000,
+    "currency": "IDR",
+    "image": "",
+    "description": {
+      "id": "Espresso bertemu steamed milk lembut, creamy di setiap tegukan.",
+      "en": "Espresso meets silky steamed milk, creamy in every sip."
+    },
+    "tags": ["Creamy", "Popular"],
+    "isBestSeller": true
+  },
+  {
+    "id": "cappuccino",
+    "name": "Cappuccino",
+    "category": "coffee",
+    "price": 25000,
+    "currency": "IDR",
+    "image": "",
+    "description": {
+      "id": "Perpaduan seimbang espresso, susu, dan foam yang aromatik.",
+      "en": "A balanced blend of espresso, milk, and aromatic foam."
+    },
+    "tags": ["Foamy"],
+    "isBestSeller": false
+  },
+  {
+    "id": "caramel-macchiato",
+    "name": "Caramel Macchiato",
+    "category": "coffee",
+    "price": 32000,
+    "currency": "IDR",
+    "image": "",
+    "description": {
+      "id": "Manisnya karamel berpadu espresso dan susu kukus yang memanjakan.",
+      "en": "Caramel sweetness meets espresso and steamed milk for a delightful treat."
+    },
+    "tags": ["Sweet", "Signature"],
+    "isBestSeller": true
+  },
+  {
+    "id": "cafe-mocha",
+    "name": "Café Mocha",
+    "category": "coffee",
+    "price": 30000,
+    "currency": "IDR",
+    "image": "",
+    "description": {
+      "id": "Cokelat dan espresso dalam satu gelas hangat yang sempurna.",
+      "en": "Chocolate and espresso in one perfectly warm cup."
+    },
+    "tags": ["Chocolatey"],
+    "isBestSeller": false
+  },
+  {
+    "id": "chocolate",
+    "name": "Hot Chocolate",
+    "category": "non-coffee",
+    "price": 24000,
+    "currency": "IDR",
+    "image": "",
+    "description": {
+      "id": "Cokelat leleh hangat, lembut, dan menghangatkan hari.",
+      "en": "Warm melted chocolate, smooth, and heartwarming."
+    },
+    "tags": ["Sweet"],
+    "isBestSeller": false
+  },
+  {
+    "id": "matcha-latte",
+    "name": "Matcha Latte",
+    "category": "non-coffee",
+    "price": 28000,
+    "currency": "IDR",
+    "image": "",
+    "description": {
+      "id": "Teh matcha premium dengan susu, segar dan kaya antioksidan.",
+      "en": "Premium matcha tea with milk, fresh and rich in antioxidants."
+    },
+    "tags": ["Fresh", "Green"],
+    "isBestSeller": false
+  },
+  {
+    "id": "earl-grey-tea",
+    "name": "Earl Grey Tea",
+    "category": "non-coffee",
+    "price": 18000,
+    "currency": "IDR",
+    "image": "",
+    "description": {
+      "id": "Teh hitam dengan sentuhan bergamot yang harum dan menenangkan.",
+      "en": "Black tea with a fragrant, soothing touch of bergamot."
+    },
+    "tags": ["Herbal"],
+    "isBestSeller": false
+  },
+  {
+    "id": "croissant",
+    "name": "Butter Croissant",
+    "category": "pastry",
+    "price": 22000,
+    "currency": "IDR",
+    "image": "",
+    "description": {
+      "id": "Croissant renyah di luar, lembut berlapis di dalam.",
+      "en": "Crispy on the outside, soft and flaky inside."
+    },
+    "tags": ["Flaky"],
+    "isBestSeller": true
+  },
+  {
+    "id": "cheesecake",
+    "name": "NY Cheesecake",
+    "category": "pastry",
+    "price": 35000,
+    "currency": "IDR",
+    "image": "",
+    "description": {
+      "id": "Kue keju lembut dengan crust graham yang klasik.",
+      "en": "Creamy cheesecake with a classic graham crust."
+    },
+    "tags": ["Dessert"],
+    "isBestSeller": false
+  },
+  {
+    "id": "banana-bread",
+    "name": "Banana Bread",
+    "category": "pastry",
+    "price": 25000,
+    "currency": "IDR",
+    "image": "",
+    "description": {
+      "id": "Roti pisang homemade, lembut dengan aroma pisang alami.",
+      "en": "Homemade banana bread, soft with a natural banana aroma."
+    },
+    "tags": ["Homemade"],
+    "isBestSeller": false
+  }
+]

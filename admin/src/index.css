@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --color-wood-darkest: #241710;
+  --color-wood-dark: #634229;
+  --color-wood-mid: #9b7854;
+  --color-wood-light: #b39371;
+  --color-wood-text: #f4ebd0;
+  --color-accent: #d97706;
+  --color-accent-dark: #b45309;
+}
+
+body {
+  background-color: var(--color-wood-darkest);
+  color: var(--color-wood-text);
+  min-height: 100vh;
+}

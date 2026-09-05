@@ -1,0 +1,1 @@
+export type PageId = 'home' | 'menu' | 'news' | 'contact';
