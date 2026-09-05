@@ -101,6 +101,10 @@ export async function uploadImage(file: File): Promise<string> {
     headers: { Authorization: `Bearer ${getToken()}` },
     body: form,
   });
+  if (res.status === 401) {
+    onUnauthorized?.();
+    throw new ApiError('Sesi berakhir. Silakan login ulang.');
+  }
   const data = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
   if (!res.ok || !data.url) {
     throw new ApiError(data.error || 'Upload gagal');
