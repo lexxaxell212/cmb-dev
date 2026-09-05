@@ -102,7 +102,6 @@ export default function CoffeeWheel({ products }: CoffeeWheelProps) {
     pending.current = { product: selected, idx: winner };
     setResult(null);
     setWinnerIdx(null);
-    setQuote(pickQuote());
     setRotation(next);
     setSpinning(true);
   };

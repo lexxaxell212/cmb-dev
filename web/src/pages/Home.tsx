@@ -94,7 +94,7 @@ export default function Home({ onNavigate }: HomeProps) {
                 src={resolveImage(item.image)}
                 alt={item.title[lang]}
                 loading="lazy"
-                className="block aspect-[16/9] -mx-5 -mt-5 mb-4 w-[calc(100%+2.5rem)] rounded-t-md rounded-b-none object-cover"
+                className="block aspect-[16/9] -mx-5 -mt-5 mb-4 w-full object-cover"
               />
               <span className="text-[11px] font-label font-bold uppercase tracking-widest text-wood-text/50">
                 {formatDate(item.date)}

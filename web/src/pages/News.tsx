@@ -55,7 +55,7 @@ export default function News() {
                 src={resolveImage(item.image)}
                 alt={item.title[lang]}
                 loading="lazy"
-                className="block aspect-[16/9] -mx-5 -mt-5 mb-4 w-[calc(100%+2.5rem)] rounded-t-md rounded-b-none object-cover"
+                className="block aspect-[16/9] -mx-5 -mt-5 mb-4 w-full object-cover"
               />
 
                 <div className="flex flex-wrap items-center gap-3 text-xs text-wood-text/60">

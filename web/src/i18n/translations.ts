@@ -46,10 +46,10 @@ const id = {
   'menu.spinTitle': 'Kopi apa hari ini?',
   'menu.spinLabel': '★ Coffee of the Day ★',
   'menu.spinSubtitle':
-    'Bingung milih kopi? Putar rodanya, biar kecepatan putaran yang menentukan pilihanmu hari ini.',
+    'Bingung milih kopi? Putar rodanya, biarkan putaran yang menentukan kopimu hari ini.',
   'menu.spinButton': 'Putar Roda',
   'menu.spinAgain': 'Putar Lagi',
-  'menu.spinQuoteLabel': 'Kata-kata Ngopi',
+  'menu.spinQuoteLabel': 'Sudah ngopi hari ini?',
   'menu.spinSpinning': 'Memutar…',
   'menu.spinResult': 'Pilihan kamu hari ini',
 
