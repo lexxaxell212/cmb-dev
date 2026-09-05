@@ -150,7 +150,7 @@ const en: Record<TranslationKey, string> = {
     'Can\'t decide? Give the wheel a spin — the spinning speed decides which coffee picks you today.',
   'menu.spinButton': 'Spin the Wheel',
   'menu.spinAgain': 'Spin Again',
-  'menu.spinQuoteLabel': 'Coffee Wisdom',
+  'menu.spinQuoteLabel': 'Have you had your coffee today?',
   'menu.spinSpinning': 'Spinning…',
   'menu.spinResult': 'Your pick today',
 
