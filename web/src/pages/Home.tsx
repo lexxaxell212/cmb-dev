@@ -1,4 +1,3 @@
-import { MoveRight, Coffee, Clock, MapPin } from 'lucide-react';
 import Hero from '../components/Hero';
 import Carousel from '../components/Carousel';
 import Product from '../components/Product';
@@ -26,9 +25,9 @@ export default function Home({ onNavigate }: HomeProps) {
   const news = useNews();
 
   const features = [
-    { icon: Coffee, title: t('features.single.title'), desc: t('features.single.desc') },
-    { icon: Clock, title: t('features.open.title'), desc: t('features.open.desc') },
-    { icon: MapPin, title: t('features.cozy.title'), desc: t('features.cozy.desc') },
+    { icon: 'fa-mug-hot', title: t('features.single.title'), desc: t('features.single.desc') },
+    { icon: 'fa-clock', title: t('features.open.title'), desc: t('features.open.desc') },
+    { icon: 'fa-location-dot', title: t('features.cozy.title'), desc: t('features.cozy.desc') },
   ];
 
   return (
@@ -38,10 +37,10 @@ export default function Home({ onNavigate }: HomeProps) {
 
       {/* Keunggulan */}
       <section className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 animate-fade-in delay-100">
-        {features.map(({ icon: Icon, title, desc }) => (
+        {features.map(({ icon, title, desc }) => (
           <Card key={title} hoverable className="text-center animate-slide-up">
             <div className="mx-auto mb-3 w-12 h-12 rounded-md bg-wood-dark/60 border border-wood-mid/30 flex items-center justify-center">
-              <Icon className="w-6 h-6 text-wood-text" strokeWidth={2.25} />
+              <i className={`fa-solid ${icon} text-2xl text-wood-text`} aria-hidden="true" />
             </div>
             <h3 className="text-lg display-h3 text-wood-text">{title}</h3>
             <p className="mt-1 text-sm text-wood-text/70">{desc}</p>
@@ -64,7 +63,7 @@ export default function Home({ onNavigate }: HomeProps) {
       <div className="w-full max-w-6xl mx-auto text-center -mt-4 animate-fade-in">
         <Button onClick={() => onNavigate('menu')}>
           {t('common.viewAllMenu')}
-          <MoveRight className="w-4 h-4" />
+          <i className="fa-solid fa-arrow-right text-base" aria-hidden="true" />
         </Button>
       </div>
 
@@ -79,7 +78,7 @@ export default function Home({ onNavigate }: HomeProps) {
             className="hidden sm:inline-flex items-center gap-1.5 text-sm font-label font-bold text-wood-text/80 hover:text-wood-text transition-colors cursor-pointer"
           >
             {t('common.viewAll')}
-            <MoveRight className="w-4 h-4" />
+            <i className="fa-solid fa-arrow-right text-base" aria-hidden="true" />
           </button>
         </div>
 
@@ -95,7 +94,7 @@ export default function Home({ onNavigate }: HomeProps) {
                 src={resolveImage(item.image)}
                 alt={item.title[lang]}
                 loading="lazy"
-                className="aspect-[16/9] -mx-5 -mt-5 mb-4 w-full rounded-t-md rounded-b-none object-cover"
+                className="block aspect-[16/9] -mx-5 -mt-5 mb-4 w-[calc(100%+2.5rem)] rounded-t-md rounded-b-none object-cover"
               />
               <span className="text-[11px] font-label font-bold uppercase tracking-widest text-wood-text/50">
                 {formatDate(item.date)}

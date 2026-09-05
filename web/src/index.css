@@ -76,15 +76,38 @@ body {
 .delay-200 { animation-delay: 200ms; }
 .delay-300 { animation-delay: 300ms; }
 
-/* Ken Burns — slow zoom pada gambar hero (gaya retro slideshow).
-   Tanpa will-change:transform supaya saat touch-scroll tidak ada artefak
-   band gelap di tepi hero (issue kompositing pada mobile Safari/Chrome). */
+/* Ken Burns — slow zoom pada gambar hero (gaya retro slideshow) */
 @keyframes kenburns {
-  0% { transform: scale(1.04) translate(0, 0); }
-  100% { transform: scale(1.08) translate(-0.75%, -0.75%); }
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.2) translate(-2%, -2.5%); }
 }
 .animate-kenburns {
-  animation: kenburns 26s ease-in-out infinite alternate;
+  animation: kenburns 22s ease-in-out infinite alternate;
+}
+
+/* Iced coffee — melayang sangat pelan, bayangan hampir konstan (biar
+   tidak berebut perhatian dengan kenburns di background) */
+@keyframes float-coffee {
+  0%, 100% {
+    transform: translateY(0);
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.55));
+  }
+  50% {
+    transform: translateY(-6px);
+    filter: drop-shadow(0 30px 48px rgba(0, 0, 0, 0.65));
+  }
+}
+.animate-float-coffee {
+  animation: float-coffee 8s ease-in-out infinite;
+}
+
+/* Panah penunjuk roda kopi — bergetar jinjit saat roda berputar */
+@keyframes wheel-hint {
+  0%, 100% { transform: translate(-50%, 0) rotate(0deg); }
+  50% { transform: translate(-50%, -4px) rotate(-8deg); }
+}
+.animate-wheel-hint {
+  animation: wheel-hint 0.35s ease-in-out infinite;
 }
 
 /* Skala heading Playfair — weight, leading, dan tracking yang konsisten */

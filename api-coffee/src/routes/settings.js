@@ -29,6 +29,8 @@ router.put('/', async (req, res, next) => {
           email: body.email || '',
           whatsapp: body.whatsapp || '',
           instagram: body.instagram || '',
+          shopeefood: body.shopeefood || '',
+          grabfood: body.grabfood || '',
           hours: Array.isArray(body.hours)
             ? body.hours.filter((h) => h && h.day && h.time)
             : [],

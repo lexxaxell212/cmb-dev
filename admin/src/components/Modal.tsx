@@ -1,4 +1,3 @@
-import { X } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 interface ModalProps {
@@ -23,7 +22,7 @@ export default function Modal({ title, children, onClose }: ModalProps) {
             className="cursor-pointer rounded p-1 text-wood-text/60 hover:text-wood-text transition-colors"
             aria-label="Tutup"
           >
-            <X className="w-5 h-5" />
+            <i className="fa-solid fa-xmark text-xl" aria-hidden="true" />
           </button>
         </div>
         {children}

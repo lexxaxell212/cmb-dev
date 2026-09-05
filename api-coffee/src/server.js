@@ -26,7 +26,7 @@ async function start() {
     }
 
     app.listen(PORT, HOST, () => {
-      console.log(`Egi-Coffee API running on http://${HOST}:${PORT}`);
+      console.log(`Coffee Manual Brew API running on http://${HOST}:${PORT}`);
     });
   } catch (err) {
     console.error('Failed to start server:', err.message);

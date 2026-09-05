@@ -3,6 +3,8 @@
   "phone": "+62 812-3456-7890",
   "whatsapp": "+6281234567890",
   "instagram": "@egicoffee",
+  "shopeefood": "https://shopee.co.id/coffee_manual_brew",
+  "grabfood": "https://food.grab.com/id/restaurant/coffee-manual-brew",
   "address": "Jl. Melati No. 12, Yogyakarta",
   "hours": [
     { "day": "Senin - Jumat", "time": "08.00 - 22.00" },

@@ -38,5 +38,7 @@ export interface Settings {
   email: string;
   whatsapp: string;
   instagram: string;
+  shopeefood: string;
+  grabfood: string;
   hours: Hour[];
 }

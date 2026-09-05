@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import placeholder from '../assets/images/placeholder.webp';
 
@@ -59,14 +58,14 @@ export default function Carousel({
           aria-label="Previous slide"
           className="absolute left-3 top-1/2 -translate-y-1/2 rounded-sm bg-wood-darkest/80 border border-wood-mid/40 p-2.5 text-wood-text hover:bg-wood-darkest transition-colors cursor-pointer"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <i className="fa-solid fa-chevron-left text-xl" aria-hidden="true" />
         </button>
         <button
           onClick={goNext}
           aria-label="Next slide"
           className="absolute right-3 top-1/2 -translate-y-1/2 rounded-sm bg-wood-darkest/80 border border-wood-mid/40 p-2.5 text-wood-text hover:bg-wood-darkest transition-colors cursor-pointer"
         >
-          <ChevronRight className="w-5 h-5" />
+          <i className="fa-solid fa-chevron-right text-xl" aria-hidden="true" />
         </button>
 
         {/* Dots */}

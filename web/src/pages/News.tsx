@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { CalendarDays, Tag, ChevronDown } from 'lucide-react';
 import Card from '../components/reusable/Card';
 import Skeleton from '../components/reusable/Skeleton';
 import { resolveImage } from '../utils/image';
@@ -56,16 +55,16 @@ export default function News() {
                 src={resolveImage(item.image)}
                 alt={item.title[lang]}
                 loading="lazy"
-                className="aspect-[16/9] -mx-5 -mt-5 mb-4 w-full rounded-t-md rounded-b-none object-cover"
+                className="block aspect-[16/9] -mx-5 -mt-5 mb-4 w-[calc(100%+2.5rem)] rounded-t-md rounded-b-none object-cover"
               />
 
                 <div className="flex flex-wrap items-center gap-3 text-xs text-wood-text/60">
                   <span className="inline-flex items-center gap-1.5 font-label font-bold">
-                    <CalendarDays className="w-3.5 h-3.5" />
+                    <i className="fa-solid fa-calendar-days text-sm" aria-hidden="true" />
                     {formatDate(item.date)}
                   </span>
                   <span className="inline-flex items-center gap-1.5 rounded-xs bg-wood-dark/60 border border-wood-mid/30 px-2.5 py-0.5 text-wood-text/80 font-label font-bold uppercase tracking-wider">
-                    <Tag className="w-3 h-3" />
+                    <i className="fa-solid fa-tag text-xs" aria-hidden="true" />
                     {item.category[lang]}
                   </span>
                 </div>
@@ -90,10 +89,11 @@ export default function News() {
                   className="mt-4 self-start inline-flex items-center gap-1.5 text-sm font-label font-bold text-wood-text/85 hover:text-wood-text transition-colors cursor-pointer"
                 >
                   {isExpanded ? t('common.collapse') : t('common.expand')}
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${
+                  <i
+                    className={`fa-solid fa-chevron-down text-sm transition-transform duration-200 ${
                       isExpanded ? 'rotate-180' : ''
                     }`}
+                    aria-hidden="true"
                   />
                 </button>
               </Card>

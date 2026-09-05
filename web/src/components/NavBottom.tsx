@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Coffee, Newspaper, PhoneCall, CupSoda, Home } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import type { PageId } from '../types';
 
@@ -9,10 +8,10 @@ interface NavBottomProps {
 }
 
 const navItems = [
-  { id: 'home' as const, labelKey: 'nav.home' as const, icon: Home },
-  { id: 'menu' as const, labelKey: 'nav.menu' as const, icon: CupSoda },
-  { id: 'news' as const, labelKey: 'nav.news' as const, icon: Newspaper },
-  { id: 'contact' as const, labelKey: 'nav.contact' as const, icon: PhoneCall },
+  { id: 'home' as const, labelKey: 'nav.home' as const, icon: 'fa-house' },
+  { id: 'menu' as const, labelKey: 'nav.menu' as const, icon: 'fa-mug-hot' },
+  { id: 'news' as const, labelKey: 'nav.news' as const, icon: 'fa-newspaper' },
+  { id: 'contact' as const, labelKey: 'nav.contact' as const, icon: 'fa-phone' },
 ];
 
 const MOBILE_SHOW_AFTER = 100;
@@ -44,8 +43,7 @@ export default function NavBottom({ page, onNavigate }: NavBottomProps) {
             onClick={() => onNavigate('home')}
             className="flex items-center gap-2 text-wood-text text-xl font-display font-bold tracking-wide"
           >
-            <Coffee className="w-6 h-6 text-wood-text" />
-            <span className="text-wood-text">Egi-Coffee</span>
+            <span className="text-wood-text">Coffee Manual Brew</span>
           </button>
           <div className="flex items-center gap-1 rounded-md bg-wood-darkest border border-wood-mid/40 p-1">
             {navItems.map(({ id, labelKey }) => (
@@ -74,7 +72,7 @@ export default function NavBottom({ page, onNavigate }: NavBottomProps) {
         ].join(' ')}
       >
         <div className="mx-3 mb-3 rounded-md bg-wood-darkest border border-wood-mid/40 shadow-md shadow-wood-darkest/60 p-1.5 flex justify-around">
-          {navItems.map(({ id, labelKey, icon: Icon }) => (
+          {navItems.map(({ id, labelKey, icon }) => (
             <button
               key={id}
               onClick={() => onNavigate(id)}
@@ -85,7 +83,10 @@ export default function NavBottom({ page, onNavigate }: NavBottomProps) {
                   : 'text-wood-text/70 hover:text-amber-600/80',
               ].join(' ')}
             >
-              <Icon className="w-[22px] h-[22px]" strokeWidth={page === id ? 2.4 : 2} />
+              <i
+                className={`fa-solid ${icon} text-[22px] leading-none ${page === id ? 'text-amber-600' : ''}`}
+                aria-hidden="true"
+              />
               {t(labelKey)}
             </button>
           ))}

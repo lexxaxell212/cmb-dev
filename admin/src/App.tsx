@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Coffee, LogOut } from 'lucide-react';
 import Login from './components/Login';
 import Products from './views/Products';
 import News from './views/News';
@@ -40,8 +39,8 @@ export default function App() {
       <header className="flex items-center justify-between border-b border-wood-mid/30 py-4">
         <div>
           <div className="flex items-center gap-2 text-xl font-bold tracking-wide text-wood-text">
-            <Coffee className="w-6 h-6 text-accent" />
-            Egi-Coffee
+            <i className="fa-solid fa-mug-hot text-2xl text-accent" aria-hidden="true" />
+            Coffee Manual Brew
           </div>
           <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-accent">
             Admin Panel
@@ -55,7 +54,7 @@ export default function App() {
             onClick={handleLogout}
             className="inline-flex items-center gap-1.5 rounded-md border border-wood-mid/50 px-3 py-1.5 text-sm text-wood-text/80 hover:text-wood-text cursor-pointer transition-colors"
           >
-            <LogOut className="w-4 h-4" />
+            <i className="fa-solid fa-right-from-bracket text-base" aria-hidden="true" />
             Keluar
           </button>
         </div>

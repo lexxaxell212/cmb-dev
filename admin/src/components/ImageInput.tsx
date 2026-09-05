@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { ImagePlus, Trash2, Upload } from 'lucide-react';
 import { uploadImage } from '../api';
 import { Button, inputClass } from './ui';
 
@@ -49,12 +48,12 @@ export default function ImageInput({ value, onChange }: ImageInputProps) {
             onChange={(e) => handleFile(e.target.files?.[0])}
           />
           <Button type="button" variant="ghost" onClick={() => inputRef.current?.click()} disabled={busy}>
-            {busy ? <Upload className="w-4 h-4 animate-spin" /> : <ImagePlus className="w-4 h-4" />}
+            {busy ? <i className="fa-solid fa-upload text-base animate-spin" aria-hidden="true" /> : <i className="fa-solid fa-image-plus text-base" aria-hidden="true" />}
             {busy ? 'Mengunggah...' : value ? 'Ganti Gambar' : 'Pilih Gambar'}
           </Button>
           {value && (
             <Button type="button" variant="danger" onClick={() => onChange('')}>
-              <Trash2 className="w-3.5 h-3.5" />
+              <i className="fa-solid fa-trash text-sm" aria-hidden="true" />
               Hapus
             </Button>
           )}

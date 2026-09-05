@@ -2,7 +2,7 @@
   "name": "api-coffee",
   "version": "1.0.0",
   "private": true,
-  "description": "REST API for Egi-Coffee (Express + MongoDB)",
+  "description": "REST API for Coffee Manual Brew (Express + MongoDB)",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

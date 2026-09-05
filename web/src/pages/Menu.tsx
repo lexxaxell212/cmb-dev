@@ -1,3 +1,4 @@
+import CoffeeWheel from '../components/CoffeeWheel';
 import Product from '../components/Product';
 import { useProducts } from '../services/api';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -17,6 +18,11 @@ export default function Menu() {
           {t('menu.subtitle')}
         </p>
       </header>
+
+      {/* Roda takdir — spin and let fate pick your coffee */}
+      {!products.loading && !products.error && (products.data ?? []).length >= 2 && (
+        <CoffeeWheel products={products.data ?? []} />
+      )}
 
       {/* Daftar menu dengan filter */}
       {products.error ? (

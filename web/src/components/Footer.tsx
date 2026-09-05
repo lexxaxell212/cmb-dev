@@ -1,4 +1,3 @@
-import { Clock, Phone, Mail, MapPin, Camera, Languages } from 'lucide-react';
 import logo from '../assets/images/logo.png';
 import { useSettings } from '../services/api';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -11,7 +10,15 @@ const languages: { code: Language; label: string }[] = [
 
 export default function Footer() {
   const { t, lang, setLang } = useLanguage();
-  const contact = useSettings().data ?? { address: '', phone: '', email: '', instagram: '', hours: [] };
+  const contact = useSettings().data ?? {
+    address: '',
+    phone: '',
+    email: '',
+    instagram: '',
+    shopeefood: '',
+    grabfood: '',
+    hours: [],
+  };
 
   return (
     <footer className="w-full pt-14 md:pt-28 pb-20 md:pb-0 bg-wood-darkest border-t border-wood-mid/20 animate-fade-in">
@@ -19,8 +26,8 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 text-wood-text font-display font-bold text-2xl">
-              <img src={logo} alt="Egi-Coffee" className="h-8 w-8 rounded object-cover" />
-              Egi-Coffee
+              <img src={logo} alt="Coffee Manual Brew" className="h-8 w-8 rounded object-cover" />
+              Coffee Manual Brew
             </div>
             <p className="mt-3 text-sm text-wood-text/70 leading-relaxed">
               {t('footer.tagline')}
@@ -29,7 +36,7 @@ export default function Footer() {
               href="#"
               className="mt-4 inline-flex items-center gap-2 text-sm text-wood-text/80 hover:text-wood-text transition-colors"
             >
-              <Camera className="w-4 h-4" />
+              <i className="fa-brands fa-instagram text-base shrink-0" aria-hidden="true" />
               {contact.instagram}
             </a>
           </div>
@@ -37,7 +44,7 @@ export default function Footer() {
           {/* Language toggle */}
           <div>
             <h4 className="flex items-center gap-2 text-sm font-label font-bold uppercase tracking-widest text-wood-text mb-4">
-              <Languages className="w-4 h-4" />
+              <i className="fa-solid fa-language text-base shrink-0" aria-hidden="true" />
               {t('common.language')}
             </h4>
             <div className="flex w-fit rounded-md bg-wood-darkest/60 border border-wood-mid/40 p-0.5">
@@ -66,17 +73,43 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3 text-sm text-wood-text/70">
               <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
+                <i className="fa-solid fa-location-dot text-base shrink-0 mt-0.5" aria-hidden="true" />
                 {contact.address}
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 shrink-0" />
+                <i className="fa-solid fa-phone text-base shrink-0" aria-hidden="true" />
                 {contact.phone}
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 shrink-0" />
+                <i className="fa-solid fa-envelope text-base shrink-0" aria-hidden="true" />
                 {contact.email}
               </li>
+              {contact.shopeefood && (
+                <li className="flex items-center gap-2.5">
+                  <a
+                    href={contact.shopeefood}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 text-wood-text/70 hover:text-wood-text transition-colors"
+                  >
+                    <i className="fa-solid fa-bag-shopping text-base shrink-0" aria-hidden="true" />
+                    ShopeeFood
+                  </a>
+                </li>
+              )}
+              {contact.grabfood && (
+                <li className="flex items-center gap-2.5">
+                  <a
+                    href={contact.grabfood}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 text-wood-text/70 hover:text-wood-text transition-colors"
+                  >
+                    <i className="fa-solid fa-utensils text-base shrink-0" aria-hidden="true" />
+                    GrabFood
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
 
@@ -88,7 +121,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-wood-text/70">
               {contact.hours.map((h) => (
                 <li key={h.day} className="flex items-start gap-2.5">
-                  <Clock className="w-4 h-4 mt-0.5 shrink-0" />
+                  <i className="fa-solid fa-clock text-base shrink-0 mt-0.5" aria-hidden="true" />
                   <span>
                     <span className="block text-wood-text/90">{h.day}</span>
                     {h.time}

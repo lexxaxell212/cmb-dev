@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { Coffee, CupSoda, Croissant, Flame } from 'lucide-react';
 import Card from './reusable/Card';
 import Skeleton from './reusable/Skeleton';
 import { resolveImage } from '../utils/image';
@@ -26,12 +25,12 @@ export type Category = 'all' | 'coffee' | 'non-coffee' | 'pastry';
 const categoryTabs: {
   id: Category;
   labelKey: TranslationKey;
-  icon: typeof Coffee;
+  icon: string;
 }[] = [
-  { id: 'all', labelKey: 'product.category.all', icon: Coffee },
-  { id: 'coffee', labelKey: 'product.category.coffee', icon: Coffee },
-  { id: 'non-coffee', labelKey: 'product.category.nonCoffee', icon: CupSoda },
-  { id: 'pastry', labelKey: 'product.category.pastry', icon: Croissant },
+  { id: 'all', labelKey: 'product.category.all', icon: 'fa-mug-hot' },
+  { id: 'coffee', labelKey: 'product.category.coffee', icon: 'fa-mug-hot' },
+  { id: 'non-coffee', labelKey: 'product.category.nonCoffee', icon: 'fa-cup-togo' },
+  { id: 'pastry', labelKey: 'product.category.pastry', icon: 'fa-croissant' },
 ];
 
 const categoryHeader: Record<Category, TranslationKey> = {
@@ -86,7 +85,7 @@ export default function Product({
 
         {showFilter && (
           <div className="flex flex-wrap gap-2">
-            {categoryTabs.map(({ id, labelKey, icon: Icon }) => (
+            {categoryTabs.map(({ id, labelKey, icon }) => (
               <button
                 key={id}
                 onClick={() => setCategory(id)}
@@ -97,7 +96,7 @@ export default function Product({
                     : 'bg-wood-dark/40 text-wood-text/75 border-wood-mid/30 hover:bg-wood-dark/60 hover:text-wood-text',
                 ].join(' ')}
               >
-                <Icon className="w-4 h-4" />
+                <i className={`fa-solid ${icon} text-base`} aria-hidden="true" />
                 {t(labelKey)}
               </button>
             ))}
@@ -127,7 +126,7 @@ export default function Product({
               />
               {product.isBestSeller && (
                 <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-xs bg-wood-text text-wood-darkest px-3 py-1 text-[10px] font-label font-bold uppercase tracking-wider shadow">
-                  <Flame className="w-3 h-3" />
+                  <i className="fa-solid fa-fire text-xs" aria-hidden="true" />
                   {t('common.bestSeller')}
                 </span>
               )}

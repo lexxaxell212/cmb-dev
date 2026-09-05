@@ -16,6 +16,8 @@ const settingSchema = new mongoose.Schema(
     email: { type: String, default: '' },
     whatsapp: { type: String, default: '' },
     instagram: { type: String, default: '' },
+    shopeefood: { type: String, default: '' },
+    grabfood: { type: String, default: '' },
     hours: { type: [hourSchema], default: [] },
   },
   { timestamps: true }

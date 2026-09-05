@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowUp } from 'lucide-react';
+
 
 export default function ScrollTop() {
   const [visible, setVisible] = useState(false);
@@ -51,7 +51,7 @@ export default function ScrollTop() {
           : 'opacity-0 translate-y-3 pointer-events-none',
       ].join(' ')}
     >
-      <ArrowUp className="w-5 h-5" />
+      <i className="fa-solid fa-arrow-up text-xl" aria-hidden="true" />
     </button>
   );
 }

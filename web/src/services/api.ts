@@ -22,6 +22,8 @@ export interface ContactSettings {
   email: string;
   whatsapp: string;
   instagram: string;
+  shopeefood: string;
+  grabfood: string;
   hours: ContactHour[];
 }
 

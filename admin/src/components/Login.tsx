@@ -32,7 +32,7 @@ export default function Login({ onSuccess }: { onSuccess: () => void }) {
         className="w-full max-w-sm rounded-lg border border-wood-mid bg-wood-dark p-7"
       >
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold tracking-wide text-wood-text">Egi-Coffee</h1>
+          <h1 className="text-2xl font-bold tracking-wide text-wood-text">Coffee Manual Brew</h1>
           <p className="mt-1 text-xs font-semibold uppercase tracking-[0.25em] text-accent">
             Admin Panel
           </p>

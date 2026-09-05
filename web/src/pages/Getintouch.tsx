@@ -1,14 +1,4 @@
 import { useState } from 'react';
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Clock,
-  Send,
-  MessageCircle,
-  CheckCircle2,
-  Camera,
-} from 'lucide-react';
 import Card from '../components/reusable/Card';
 import Button from '../components/reusable/Button';
 import { useSettings } from '../services/api';
@@ -22,6 +12,8 @@ export default function Getintouch() {
     email: '',
     instagram: '',
     whatsapp: '',
+    shopeefood: '',
+    grabfood: '',
     hours: [],
   };
   const [form, setForm] = useState({ name: '', email: '', message: '' });
@@ -36,22 +28,22 @@ export default function Getintouch() {
 
   const infoItems = [
     {
-      icon: MapPin,
+      icon: 'fa-solid fa-location-dot',
       labelKey: 'contact.label.address' as const,
       value: contact.address,
     },
     {
-      icon: Phone,
+      icon: 'fa-solid fa-phone',
       labelKey: 'contact.label.phone' as const,
       value: contact.phone,
     },
     {
-      icon: Mail,
+      icon: 'fa-solid fa-envelope',
       labelKey: 'contact.label.email' as const,
       value: contact.email,
     },
     {
-      icon: Camera,
+      icon: 'fa-brands fa-instagram',
       labelKey: 'contact.label.instagram' as const,
       value: contact.instagram,
     },
@@ -71,10 +63,10 @@ export default function Getintouch() {
       <section className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
         {/* Info */}
         <div className="space-y-4">
-          {infoItems.map(({ icon: Icon, labelKey, value }) => (
+          {infoItems.map(({ icon, labelKey, value }) => (
             <Card key={labelKey} hoverable className="flex items-center gap-4 animate-slide-up">
               <div className="w-12 h-12 rounded-md bg-wood-dark/60 border border-wood-mid/40 flex items-center justify-center shrink-0">
-                <Icon className="w-6 h-6 text-wood-text" strokeWidth={2.25} />
+                <i className={`${icon} text-2xl text-wood-text`} aria-hidden="true" />
               </div>
               <div>
                 <p className="text-xs font-label font-bold uppercase tracking-widest text-wood-text/50">
@@ -87,7 +79,7 @@ export default function Getintouch() {
 
           <Card className="animate-slide-up delay-100">
             <h3 className="flex items-center gap-2 display-h3 text-wood-text mb-3">
-              <Clock className="w-5 h-5" />
+              <i className="fa-solid fa-clock text-xl" aria-hidden="true" />
               {t('contact.hours')}
             </h3>
             <ul className="space-y-2 text-sm text-wood-text/80">
@@ -106,9 +98,33 @@ export default function Getintouch() {
             rel="noreferrer"
             className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-amber-700/70 hover:bg-amber-700 text-wood-text font-label font-bold px-5 py-3 transition-all duration-200 hover:scale-[1.05] active:scale-95 border border-wood-darkest/40"
           >
-            <MessageCircle className="w-5 h-5" />
+            <i className="fa-solid fa-comment-dots text-xl" aria-hidden="true" />
             {t('contact.whatsapp')}
           </a>
+
+          {contact.shopeefood && (
+            <a
+              href={contact.shopeefood}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-wood-dark/70 hover:bg-wood-dark text-wood-text font-label font-bold px-5 py-3 transition-all duration-200 hover:scale-[1.05] active:scale-95 border border-wood-mid/40"
+            >
+              <i className="fa-solid fa-bag-shopping text-xl" aria-hidden="true" />
+              {t('contact.orderShopeeFood')}
+            </a>
+          )}
+
+          {contact.grabfood && (
+            <a
+              href={contact.grabfood}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-wood-dark/70 hover:bg-wood-dark text-wood-text font-label font-bold px-5 py-3 transition-all duration-200 hover:scale-[1.05] active:scale-95 border border-wood-mid/40"
+            >
+              <i className="fa-solid fa-utensils text-xl" aria-hidden="true" />
+              {t('contact.orderGrabFood')}
+            </a>
+          )}
         </div>
 
         {/* Form */}
@@ -119,7 +135,7 @@ export default function Getintouch() {
 
           {sent && (
             <div className="mb-5 flex items-center gap-2 rounded-md bg-wood-dark/50 border border-amber-600/40 px-4 py-3 text-sm text-wood-text animate-fade-in">
-              <CheckCircle2 className="w-5 h-5 text-amber-600" />
+              <i className="fa-solid fa-circle-check text-xl text-amber-600" aria-hidden="true" />
               {t('contact.form.success')}
             </div>
           )}
@@ -170,7 +186,7 @@ export default function Getintouch() {
             </div>
 
             <Button type="submit" fullWidth>
-              <Send className="w-4 h-4" />
+              <i className="fa-solid fa-paper-plane text-base" aria-hidden="true" />
               {t('contact.form.submit')}
             </Button>
           </form>

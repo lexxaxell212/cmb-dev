@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { api } from '../api';
 import type { NewsItem } from '../types';
 import Modal from '../components/Modal';
 import ImageInput from '../components/ImageInput';
 import { Alert, Button, Field, inputClass } from '../components/ui';
+import { useToast } from '../Toast';
 
 const empty = {
   title: { id: '', en: '' },
@@ -16,6 +16,7 @@ const empty = {
 };
 
 export default function News({ onChanged }: { onChanged: () => void }) {
+  const toast = useToast();
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -48,32 +49,36 @@ export default function News({ onChanged }: { onChanged: () => void }) {
 
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.title.id.trim()) return;
-    setError('');
+    if (!form.title.id.trim()) {
+      toast.error('Judul berita wajib diisi.');
+      return;
+    }
     try {
       if (modal.id) {
         await api(`/news/${encodeURIComponent(modal.id)}`, {
           method: 'PUT',
           body: JSON.stringify(form),
         });
+        toast.success('Berita diperbarui.');
       } else {
         await api('/news', { method: 'POST', body: JSON.stringify(form) });
+        toast.success('Berita ditambahkan.');
       }
       setModal({ open: false, id: '' });
       onChanged();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal menyimpan berita');
+      toast.error(err instanceof Error ? err.message : 'Gagal menyimpan berita');
     }
   };
 
   const remove = async (n: NewsItem) => {
     if (!window.confirm(`Hapus berita "${n.title.id}"?`)) return;
-    setError('');
     try {
       await api(`/news/${encodeURIComponent(n.id)}`, { method: 'DELETE' });
+      toast.success(`Berita "${n.title.id}" dihapus.`);
       onChanged();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal menghapus berita');
+      toast.error(err instanceof Error ? err.message : 'Gagal menghapus berita');
     }
   };
 
@@ -82,7 +87,7 @@ export default function News({ onChanged }: { onChanged: () => void }) {
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-wood-text">Berita</h2>
         <Button onClick={openAdd}>
-          <Plus className="w-4 h-4" />
+          <i className="fa-solid fa-plus text-base" aria-hidden="true" />
           Tambah Berita
         </Button>
       </div>
@@ -126,11 +131,11 @@ export default function News({ onChanged }: { onChanged: () => void }) {
                 <td className="px-4 py-3">
                   <div className="flex justify-end gap-2">
                     <Button variant="ghost" onClick={() => openEdit(n)}>
-                      <Pencil className="w-3.5 h-3.5" />
+                      <i className="fa-solid fa-pen text-sm" aria-hidden="true" />
                       Edit
                     </Button>
                     <Button variant="danger" onClick={() => remove(n)}>
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <i className="fa-solid fa-trash text-sm" aria-hidden="true" />
                       Hapus
                     </Button>
                   </div>

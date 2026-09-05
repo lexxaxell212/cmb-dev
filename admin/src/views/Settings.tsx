@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Plus, Save, Trash2 } from 'lucide-react';
 import { api } from '../api';
 import type { Hour, Settings as SettingsType } from '../types';
 import { Alert, Button, Field, inputClass } from '../components/ui';
+import { useToast } from '../Toast';
 
 const empty: SettingsType = {
   address: '',
@@ -10,14 +10,16 @@ const empty: SettingsType = {
   email: '',
   whatsapp: '',
   instagram: '',
+  shopeefood: '',
+  grabfood: '',
   hours: [],
 };
 
 export default function Settings() {
+  const toast = useToast();
   const [form, setForm] = useState<SettingsType>({ ...empty });
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
 
   useEffect(() => {
     api<SettingsType>('/settings')
@@ -41,8 +43,6 @@ export default function Settings() {
     setForm((f) => ({ ...f, hours: f.hours.filter((_, i) => i !== index) }));
 
   const save = async () => {
-    setError('');
-    setMessage('');
     try {
       await api('/settings', {
         method: 'PUT',
@@ -51,9 +51,9 @@ export default function Settings() {
           hours: form.hours.filter((h) => h.day.trim() && h.time.trim()),
         }),
       });
-      setMessage('Pengaturan disimpan.');
+      toast.success('Pengaturan disimpan.');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal menyimpan pengaturan');
+      toast.error(err instanceof Error ? err.message : 'Gagal menyimpan pengaturan');
     }
   };
 
@@ -64,13 +64,12 @@ export default function Settings() {
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-wood-text">Pengaturan Kontak & Jam Buka</h2>
         <Button onClick={save}>
-          <Save className="w-4 h-4" />
+          <i className="fa-solid fa-floppy-disk text-base" aria-hidden="true" />
           Simpan Pengaturan
         </Button>
       </div>
 
       {error && <Alert type="error">{error}</Alert>}
-      {message && <Alert type="ok">{message}</Alert>}
 
       <div className="flex flex-col gap-4 rounded-lg border border-wood-mid/40 bg-wood-dark/60 p-5">
         <Field label="Alamat">
@@ -88,6 +87,12 @@ export default function Settings() {
           </Field>
           <Field label="Instagram">
             <input className={inputClass} value={form.instagram} onChange={(e) => setField('instagram')(e.target.value)} />
+          </Field>
+          <Field label="ShopeeFood (URL)">
+            <input className={inputClass} value={form.shopeefood} onChange={(e) => setField('shopeefood')(e.target.value)} placeholder="https://shopee.co.id/..." />
+          </Field>
+          <Field label="GrabFood (URL)">
+            <input className={inputClass} value={form.grabfood} onChange={(e) => setField('grabfood')(e.target.value)} placeholder="https://food.grab.com/id/..." />
           </Field>
         </div>
 
@@ -110,14 +115,14 @@ export default function Settings() {
                 onChange={(e) => setHour(i, 'time')(e.target.value)}
               />
               <Button variant="danger" onClick={() => removeHour(i)}>
-                <Trash2 className="w-3.5 h-3.5" />
+                <i className="fa-solid fa-trash text-sm" aria-hidden="true" />
               </Button>
             </div>
           ))}
         </div>
         <div>
           <Button variant="ghost" onClick={addHour}>
-            <Plus className="w-4 h-4" />
+            <i className="fa-solid fa-plus text-base" aria-hidden="true" />
             Tambah Baris Jam
           </Button>
         </div>

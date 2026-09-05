@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { api } from '../api';
 import type { Category, Product } from '../types';
 import Modal from '../components/Modal';
 import ImageInput from '../components/ImageInput';
 import { Alert, Button, Field, inputClass } from '../components/ui';
+import { useToast } from '../Toast';
 
 const CATEGORY_LABELS: Record<Category, string> = {
   coffee: 'Kopi',
@@ -24,6 +24,7 @@ const emptyProduct: Omit<Product, 'id'> = {
 };
 
 export default function Products({ onChanged }: { onChanged: () => void }) {
+  const toast = useToast();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -62,32 +63,36 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
 
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name.trim()) return;
-    setError('');
+    if (!form.name.trim()) {
+      toast.error('Nama produk wajib diisi.');
+      return;
+    }
     try {
       if (modal.id) {
         await api(`/products/${encodeURIComponent(modal.id)}`, {
           method: 'PUT',
           body: JSON.stringify(form),
         });
+        toast.success('Produk diperbarui.');
       } else {
         await api('/products', { method: 'POST', body: JSON.stringify(form) });
+        toast.success('Produk ditambahkan.');
       }
       setModal({ open: false, id: '', edit: null });
       onChanged();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal menyimpan produk');
+      toast.error(err instanceof Error ? err.message : 'Gagal menyimpan produk');
     }
   };
 
   const remove = async (p: Product) => {
     if (!window.confirm(`Hapus produk "${p.name}"?`)) return;
-    setError('');
     try {
       await api(`/products/${encodeURIComponent(p.id)}`, { method: 'DELETE' });
+      toast.success(`Produk "${p.name}" dihapus.`);
       onChanged();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal menghapus produk');
+      toast.error(err instanceof Error ? err.message : 'Gagal menghapus produk');
     }
   };
 
@@ -96,7 +101,7 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-wood-text">Produk</h2>
         <Button onClick={openAdd}>
-          <Plus className="w-4 h-4" />
+          <i className="fa-solid fa-plus text-base" aria-hidden="true" />
           Tambah Produk
         </Button>
       </div>
@@ -148,11 +153,11 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
                 <td className="px-4 py-3">
                   <div className="flex justify-end gap-2">
                     <Button variant="ghost" onClick={() => openEdit(p)}>
-                      <Pencil className="w-3.5 h-3.5" />
+                      <i className="fa-solid fa-pen text-sm" aria-hidden="true" />
                       Edit
                     </Button>
                     <Button variant="danger" onClick={() => remove(p)}>
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <i className="fa-solid fa-trash text-sm" aria-hidden="true" />
                       Hapus
                     </Button>
                   </div>
