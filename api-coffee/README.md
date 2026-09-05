@@ -65,6 +65,8 @@ Semua endpoint di bawah `/api` (kecuali `/api/health` dan `/api/auth/login`) waj
 | DELETE | `/api/news/:id`      | Hapus berita                            |
 | GET    | `/api/settings`      | Data kontak, alamat, jam buka           |
 | PUT    | `/api/settings`      | Perbarui data kontak & jam buka         |
+| POST   | `/api/upload`        | Upload gambar (multipart `image`) → URL `/uploads/<nama>` (wajib login) |
+| GET    | `/uploads/*`         | File gambar hasil upload (publik, tidak perlu token) |
 
 ### Autentikasi (cara kerja & cara buat admin)
 
@@ -123,6 +125,7 @@ pm2 save && pm2 startup
 ```
 
 6. Saran: pasang reverse proxy (Nginx) sehingga API bisa diakses lewat domain, lalu arahkan panel admin ke domain API tersebut.
+   Selain `location /api`, pastikan juga ada `location /uploads` yang diproxy ke API (mis. `proxy_pass http://127.0.0.1:3001;`) supaya gambar hasil upload bisa diakses publik, dan set `client_max_body_size 6m;` di blok server.
 
 ---
 

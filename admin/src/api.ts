@@ -91,3 +91,19 @@ export async function login(
   }
   return { token: data.token, username: data.username || username };
 }
+
+export async function uploadImage(file: File): Promise<string> {
+  const base = getBaseUrl().replace(/\/api\/?$/, '');
+  const form = new FormData();
+  form.append('image', file);
+  const res = await fetch(getBaseUrl() + '/upload', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${getToken()}` },
+    body: form,
+  });
+  const data = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
+  if (!res.ok || !data.url) {
+    throw new ApiError(data.error || 'Upload gagal');
+  }
+  return base + data.url;
+}

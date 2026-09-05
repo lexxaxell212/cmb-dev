@@ -3,6 +3,7 @@ import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { api } from '../api';
 import type { Category, Product } from '../types';
 import Modal from '../components/Modal';
+import ImageInput from '../components/ImageInput';
 import { Alert, Button, Field, inputClass } from '../components/ui';
 
 const CATEGORY_LABELS: Record<Category, string> = {
@@ -198,12 +199,8 @@ export default function Products({ onChanged }: { onChanged: () => void }) {
                 required
               />
             </Field>
-            <Field label="URL Gambar (opsional)">
-              <input
-                className={inputClass}
-                value={form.image}
-                onChange={(e) => setForm({ ...form, image: e.target.value })}
-              />
+            <Field label="Gambar">
+              <ImageInput value={form.image} onChange={(url) => setForm({ ...form, image: url })} />
             </Field>
             <Field label="Deskripsi (Indonesia)">
               <textarea

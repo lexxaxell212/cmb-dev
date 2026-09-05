@@ -1,11 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
+const path = require('path');
 
 const authRouter = require('./routes/auth');
 const productsRouter = require('./routes/products');
 const newsRouter = require('./routes/news');
 const settingsRouter = require('./routes/settings');
+const uploadRouter = require('./routes/upload');
 
 const app = express();
 
@@ -44,6 +46,9 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/auth', authRouter);
+
+app.use('/api/upload', requireAuth, uploadRouter);
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 const requireAuthUnlessGet = (req, res, next) =>
   req.method === 'GET' ? next() : requireAuth(req, res, next);

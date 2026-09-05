@@ -3,6 +3,7 @@ import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { api } from '../api';
 import type { NewsItem } from '../types';
 import Modal from '../components/Modal';
+import ImageInput from '../components/ImageInput';
 import { Alert, Button, Field, inputClass } from '../components/ui';
 
 const empty = {
@@ -228,12 +229,8 @@ export default function News({ onChanged }: { onChanged: () => void }) {
                 }
               />
             </Field>
-            <Field label="URL Gambar (opsional)">
-              <input
-                className={inputClass}
-                value={form.image}
-                onChange={(e) => setForm({ ...form, image: e.target.value })}
-              />
+            <Field label="Gambar">
+              <ImageInput value={form.image} onChange={(url) => setForm({ ...form, image: url })} />
             </Field>
             <div className="flex justify-end gap-2">
               <Button type="button" variant="ghost" onClick={() => setModal((m) => ({ ...m, open: false }))}>
