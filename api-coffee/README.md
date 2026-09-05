@@ -49,7 +49,7 @@ npm run seed     # isi data awal (produk, berita, pengaturan) ke MongoDB
 
 ## Endpoint
 
-Semua endpoint di bawah `/api` (kecuali `/api/health` dan `/api/auth/login`) wajib menyertakan header `Authorization: Bearer <token>`.
+Semua endpoint di bawah `/api` (kecuali `/api/health` dan `/api/auth/login`) wajib menyertakan header `Authorization: Bearer <token>` — **kecuali untuk `GET` pada `/api/products`, `/api/news`, `/api/settings` yang bersifat publik** (dibaca situs web tanpa token). Hanya operasi tulis (POST/PUT/DELETE) yang perlu login.
 
 | Method | Endpoint             | Keterangan                              |
 | ------ | -------------------- | --------------------------------------- |

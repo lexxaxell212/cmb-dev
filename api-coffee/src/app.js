@@ -9,6 +9,8 @@ const settingsRouter = require('./routes/settings');
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 const corsOrigins = (process.env.CORS_ORIGIN || '*')
   .split(',')
   .map((s) => s.trim())
@@ -43,9 +45,12 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/auth', authRouter);
 
-app.use('/api/products', requireAuth, productsRouter);
-app.use('/api/news', requireAuth, newsRouter);
-app.use('/api/settings', requireAuth, settingsRouter);
+const requireAuthUnlessGet = (req, res, next) =>
+  req.method === 'GET' ? next() : requireAuth(req, res, next);
+
+app.use('/api/products', requireAuthUnlessGet, productsRouter);
+app.use('/api/news', requireAuthUnlessGet, newsRouter);
+app.use('/api/settings', requireAuthUnlessGet, settingsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });
