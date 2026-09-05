@@ -27,18 +27,28 @@ body::before {
 }
 
 /* Kelas khusus untuk background kayu sesuai kode pilihan Anda */
-.bg-wood-texture {
-  background-image: radial-gradient(circle at center, #7a5638 0%, #5d3e2a 60%, #3d2818 100%),
-                    repeating-linear-gradient(135deg, #704d3310, #704d3310 2px, transparent 2px, transparent 8px);
-}
 
 /* Utility untuk scrolling halus */
 html {
   scroll-behavior: smooth;
+  /* Background kayu di root element: melukis SELURUH canvas (viewport +
+     area scroll) tanpa position:fixed / 100vh layout — bebas band bar Chrome.
+     Vignette radial 'cover' mengisi seluruh canvas; base color #5d3d28
+     dipilih sama dengan stop akhir radial supaya relative, body dibiarkan
+     transparent agar tidak menutupi canvas ini. */
+  min-height: 100%;
+  background-color: #3d2818;
+  background-image: radial-gradient(circle at 50% 45%, #7a5638 0%, #5d3e2a 55%, #3d2818 100%),
+                    repeating-linear-gradient(135deg, #704d3310, #704d3310 2px, transparent 2px, transparent 8px);
+  background-repeat: no-repeat, repeat;
+  background-size: cover, auto;
 }
 
 body {
-  background-color: var(--color-wood-darkest);
+  /* Background DIBEBASKAN (transparent) agar canvas texture di <html>
+     terlihat. Bila body punya background-color sendiri, ia melukis
+     DI ATAS <html> dan menutupi tekstur kayu. */
+  background: transparent;
   min-height: 100%;
   font-weight: 400;
 }

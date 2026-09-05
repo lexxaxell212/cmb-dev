@@ -41,7 +41,9 @@ export default function News() {
           {news.loading &&
             Array.from({ length: 3 }).map((_, i) => (
               <Card key={`skeleton-${i}`} className="flex flex-col">
-                <Skeleton className="aspect-[16/9] -mx-5 -mt-5 mb-4 rounded-b-none" />
+                <div className="relative aspect-[16/9] mb-4">
+                  <Skeleton className="absolute -inset-x-5 -top-5 h-[calc(100%+1.25rem)] rounded-t-md rounded-b-none" />
+                </div>
                 <div className="mt-3 h-6 w-2/3 rounded bg-wood-dark/50 animate-pulse" />
                 <div className="mt-2 h-3 w-full rounded bg-wood-dark/50 animate-pulse" />
                 <div className="mt-1 h-3 w-5/6 rounded bg-wood-dark/50 animate-pulse" />
@@ -51,12 +53,14 @@ export default function News() {
             const isExpanded = expandedId === item.id;
             return (
               <Card key={item.id} hoverable className="flex flex-col animate-slide-up">
-<img
-                src={resolveImage(item.image)}
-                alt={item.title[lang]}
-                loading="lazy"
-                className="block aspect-[16/9] -mx-5 -mt-5 mb-4 w-full object-cover"
-              />
+<div className="relative aspect-[16/9] mb-4">
+                <img
+                  src={resolveImage(item.image)}
+                  alt={item.title[lang]}
+                  loading="lazy"
+                  className="absolute -inset-x-5 -top-5 h-[calc(100%+1.25rem)] w-[calc(100%+2.5rem)] object-cover rounded-t-md rounded-b-none"
+                />
+              </div>
 
                 <div className="flex flex-wrap items-center gap-3 text-xs text-wood-text/60">
                   <span className="inline-flex items-center gap-1.5 font-label font-bold">
