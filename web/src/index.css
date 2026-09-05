@@ -76,6 +76,17 @@ body {
 .delay-200 { animation-delay: 200ms; }
 .delay-300 { animation-delay: 300ms; }
 
+/* Ken Burns — slow zoom pada gambar hero (gaya retro slideshow).
+   Tanpa will-change:transform supaya saat touch-scroll tidak ada artefak
+   band gelap di tepi hero (issue kompositing pada mobile Safari/Chrome). */
+@keyframes kenburns {
+  0% { transform: scale(1.04) translate(0, 0); }
+  100% { transform: scale(1.08) translate(-0.75%, -0.75%); }
+}
+.animate-kenburns {
+  animation: kenburns 26s ease-in-out infinite alternate;
+}
+
 /* Skala heading Playfair — weight, leading, dan tracking yang konsisten */
 @layer components {
   .display-h1 {

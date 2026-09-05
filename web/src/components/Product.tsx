@@ -110,7 +110,7 @@ export default function Product({
         {loading &&
           Array.from({ length: limit ?? 3 }).map((_, i) => (
             <Card key={`skeleton-${i}`} hoverable className="flex flex-col animate-slide-up">
-              <Skeleton className="aspect-[4/3] -m-5 mb-4 rounded-b-none" />
+              <Skeleton className="aspect-[4/3] -mx-5 -mt-5 mb-4 rounded-b-none" />
               <div className="mt-3 h-5 w-3/4 rounded bg-wood-dark/50 animate-pulse" />
               <div className="mt-2 h-3 w-full rounded bg-wood-dark/50 animate-pulse" />
               <div className="mt-1 h-3 w-2/3 rounded bg-wood-dark/50 animate-pulse" />
@@ -118,7 +118,7 @@ export default function Product({
           ))}
         {filtered.map((product) => (
           <Card key={product.id} hoverable className="flex flex-col animate-slide-up">
-            <div className="relative -m-5 mb-4">
+            <div className="relative -mx-5 -mt-5 mb-4">
               <img
                 src={resolveImage(product.image)}
                 alt={product.name}

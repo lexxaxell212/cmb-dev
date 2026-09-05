@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Coffee, Newspaper, PhoneCall, CupSoda, Home } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import type { PageId } from '../types';
@@ -14,8 +15,25 @@ const navItems = [
   { id: 'contact' as const, labelKey: 'nav.contact' as const, icon: PhoneCall },
 ];
 
+const MOBILE_SHOW_AFTER = 100;
+const MOBILE_HIDE_BELOW = 60;
+
 export default function NavBottom({ page, onNavigate }: NavBottomProps) {
   const { t } = useLanguage();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setVisible((prev) => {
+        const y = window.scrollY;
+        const next = y > MOBILE_SHOW_AFTER || (prev && y > MOBILE_HIDE_BELOW);
+        return prev === next ? prev : next;
+      });
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [page]);
 
   return (
     <>
@@ -48,8 +66,13 @@ export default function NavBottom({ page, onNavigate }: NavBottomProps) {
         </nav>
       </header>
 
-      {/* Bottom nav — mobile (di bawah md) */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 animate-slide-up">
+      {/* Bottom nav — mobile (di bawah md): muncul setelah scroll 100px (deadband 60px supaya tidak berkedip) */}
+      <nav
+        className={[
+          'md:hidden fixed bottom-0 inset-x-0 z-40 transition-transform duration-300 ease-in-out',
+          visible ? 'translate-y-0' : 'translate-y-[110%]',
+        ].join(' ')}
+      >
         <div className="mx-3 mb-3 rounded-md bg-wood-darkest border border-wood-mid/40 shadow-md shadow-wood-darkest/60 p-1.5 flex justify-around">
           {navItems.map(({ id, labelKey, icon: Icon }) => (
             <button
