@@ -63,15 +63,25 @@ export default function Product({
 }: ProductProps) {
   const { t, lang } = useLanguage();
   const [category, setCategory] = useState<Category>(initialCategory);
+  const [query, setQuery] = useState('');
 
   const filtered = useMemo(() => {
     let list =
       category === 'all'
         ? products
         : products.filter((p) => p.category === category);
+    const q = query.trim().toLowerCase();
+    if (q) {
+      list = list.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.description[lang].toLowerCase().includes(q) ||
+          p.tags.some((tag) => tag.toLowerCase().includes(q))
+      );
+    }
     if (limit) list = list.slice(0, limit);
     return list;
-  }, [products, category, limit]);
+  }, [products, category, limit, query, lang]);
 
   return (
     <section className="w-full max-w-6xl mx-auto animate-fade-in">
@@ -84,22 +94,35 @@ export default function Product({
         </div>
 
         {showFilter && (
-          <div className="flex flex-wrap gap-2">
-            {categoryTabs.map(({ id, labelKey, icon }) => (
-              <button
-                key={id}
-                onClick={() => setCategory(id)}
-                className={[
-                  'inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-xs md:text-sm font-label font-bold uppercase tracking-wide transition-all duration-200 cursor-pointer border',
-                  category === id
-                    ? 'bg-wood-text text-wood-darkest border-wood-text'
-                    : 'bg-wood-dark/40 text-wood-text/75 border-wood-mid/30 hover:bg-wood-dark/60 hover:text-wood-text',
-                ].join(' ')}
-              >
-                <i className={`fa-solid ${icon} text-base`} aria-hidden="true" />
-                {t(labelKey)}
-              </button>
-            ))}
+          <div className="flex flex-col items-start gap-3">
+            <div className="flex flex-wrap gap-2">
+              {categoryTabs.map(({ id, labelKey, icon }) => (
+                <button
+                  key={id}
+                  onClick={() => setCategory(id)}
+                  className={[
+                    'inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-xs md:text-sm font-label font-bold uppercase tracking-wide transition-all duration-200 cursor-pointer border',
+                    category === id
+                      ? 'bg-wood-text text-wood-darkest border-wood-text'
+                      : 'bg-wood-dark/40 text-wood-text/75 border-wood-mid/30 hover:bg-wood-dark/60 hover:text-wood-text',
+                  ].join(' ')}
+                >
+                  <i className={`fa-solid ${icon} text-base`} aria-hidden="true" />
+                  {t(labelKey)}
+                </button>
+              ))}
+            </div>
+
+            <div className="relative w-full sm:w-72">
+              <i className="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-wood-text/50" aria-hidden="true" />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={t('product.searchPlaceholder')}
+                className="w-full rounded-md border border-wood-mid/40 bg-wood-dark/40 py-2 pl-10 pr-3 text-sm text-wood-text placeholder:text-wood-text/40 focus:outline-none focus:border-wood-text"
+              />
+            </div>
           </div>
         )}
       </div>
@@ -158,6 +181,10 @@ export default function Product({
           </Card>
         ))}
       </div>
+
+      {showFilter && !loading && filtered.length === 0 && (
+        <p className="mt-8 text-center text-sm text-wood-text/60">{t('product.searchEmpty')}</p>
+      )}
     </section>
   );
 }

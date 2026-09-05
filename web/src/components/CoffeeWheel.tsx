@@ -17,12 +17,6 @@ const R = 138;
 const HUB = 34;
 const LABEL_R = 84;
 
-const currencyFormatter = new Intl.NumberFormat('id-ID', {
-  style: 'currency',
-  currency: 'IDR',
-  maximumFractionDigits: 0,
-});
-
 function radial(radius: number, angleDeg: number): { x: number; y: number } {
   const rad = (angleDeg * Math.PI) / 180;
   return { x: radius * Math.cos(rad), y: radius * Math.sin(rad) };
@@ -277,14 +271,9 @@ export default function CoffeeWheel({ products }: CoffeeWheelProps) {
                         className="w-20 h-20 rounded-md object-cover shrink-0"
                       />
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-baseline justify-between gap-2">
-                          <h3 className="text-lg display-h3 text-wood-text truncate">
-                            {result.name}
-                          </h3>
-                          <p className="text-sm font-bold text-wood-text whitespace-nowrap">
-                            {currencyFormatter.format(result.price)}
-                          </p>
-                        </div>
+                        <h3 className="text-lg display-h3 text-wood-text">
+                          {result.name}
+                        </h3>
                         {result.isBestSeller && (
                           <span className="mt-1 inline-flex items-center gap-1 rounded-xs bg-wood-dark/60 border border-wood-mid/30 px-2 py-0.5 text-[10px] font-label font-bold uppercase text-wood-text/80">
                             <i className="fa-solid fa-fire text-xs text-amber-600" aria-hidden="true" />

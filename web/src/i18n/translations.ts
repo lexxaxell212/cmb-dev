@@ -39,6 +39,8 @@ const id = {
   'product.header.nonCoffee': 'Non Coffee Favorites',
   'product.header.pastry': 'Fresh Pastry & Dessert',
   'product.header.all': 'Menu Andalan Kami',
+  'product.searchPlaceholder': 'Cari produk...',
+  'product.searchEmpty': 'Tidak ada produk yang cocok dengan pencarianmu.',
 
   'menu.title': 'Menu Kami',
   'menu.subtitle':
@@ -134,6 +136,8 @@ const en: Record<TranslationKey, string> = {
   'product.header.nonCoffee': 'Non Coffee Favorites',
   'product.header.pastry': 'Fresh Pastry & Dessert',
   'product.header.all': 'Our Signature Menu',
+  'product.searchPlaceholder': 'Search products...',
+  'product.searchEmpty': 'No products match your search.',
 
   'menu.title': 'Our Menu',
   'menu.subtitle':
