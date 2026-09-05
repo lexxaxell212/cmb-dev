@@ -29,8 +29,8 @@ const categoryTabs: {
 }[] = [
   { id: 'all', labelKey: 'product.category.all', icon: 'fa-mug-hot' },
   { id: 'coffee', labelKey: 'product.category.coffee', icon: 'fa-mug-hot' },
-  { id: 'non-coffee', labelKey: 'product.category.nonCoffee', icon: 'fa-cup-togo' },
-  { id: 'pastry', labelKey: 'product.category.pastry', icon: 'fa-croissant' },
+  { id: 'non-coffee', labelKey: 'product.category.nonCoffee', icon: 'fa-glass-water' },
+  { id: 'pastry', labelKey: 'product.category.pastry', icon: 'fa-bread-slice' },
 ];
 
 const categoryHeader: Record<Category, TranslationKey> = {

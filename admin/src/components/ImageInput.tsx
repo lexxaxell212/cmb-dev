@@ -48,7 +48,7 @@ export default function ImageInput({ value, onChange }: ImageInputProps) {
             onChange={(e) => handleFile(e.target.files?.[0])}
           />
           <Button type="button" variant="ghost" onClick={() => inputRef.current?.click()} disabled={busy}>
-            {busy ? <i className="fa-solid fa-upload text-base animate-spin" aria-hidden="true" /> : <i className="fa-solid fa-image-plus text-base" aria-hidden="true" />}
+            {busy ? <i className="fa-solid fa-upload text-base animate-spin" aria-hidden="true" /> : <i className="fa-solid fa-image text-base" aria-hidden="true" />}
             {busy ? 'Mengunggah...' : value ? 'Ganti Gambar' : 'Pilih Gambar'}
           </Button>
           {value && (

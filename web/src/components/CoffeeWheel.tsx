@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Card from './reusable/Card';
 import { resolveImage } from '../utils/image';
 import { useLanguage } from '../i18n/LanguageContext';
 import type { ProductItem } from './Product';
 
 const SPIN_DURATION_MS = 3000;
+// Posisi panah di SVG: 0° = kanan (arah sumbu +x), jadi puncak roda = 270°.
+const POINTER_ANGLE = 270;
 const SLICE_COLORS = ['#6b4526', '#46301c'];
 const AMBER = '#d4a05a';
+const WINNER_FILL = '#f0bd74';
 const CREAM = '#f4ebd0';
 const DARK = '#241710';
 const R = 138;
@@ -29,15 +32,24 @@ interface CoffeeWheelProps {
 }
 
 export default function CoffeeWheel({ products }: CoffeeWheelProps) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [rotation, setRotation] = useState(0);
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState<ProductItem | null>(null);
+  const [winnerIdx, setWinnerIdx] = useState<number | null>(null);
+  const pending = useRef<{ product: ProductItem; idx: number } | null>(null);
 
-  // Matikan mode "spinning" setelah durasi putaran selesai
+  // Setelah putaran selesai barulah hasil ditampilkan
   useEffect(() => {
     if (!spinning) return;
-    const timer = setTimeout(() => setSpinning(false), SPIN_DURATION_MS);
+    const timer = setTimeout(() => {
+      setSpinning(false);
+      if (pending.current) {
+        setResult(pending.current.product);
+        setWinnerIdx(pending.current.idx);
+        pending.current = null;
+      }
+    }, SPIN_DURATION_MS);
     return () => clearTimeout(timer);
   }, [spinning]);
 
@@ -56,16 +68,21 @@ export default function CoffeeWheel({ products }: CoffeeWheelProps) {
     const physAngle = (1.5 * w * 180) / Math.PI;
     const turns = Math.max(4, Math.floor(physAngle / 360));
 
-    const resting = ((360 - (physAngle % 360)) % 360 + 360) % 360;
+    // Sudut yang berakhir tepat di bawah panah (puncak = 270°)
+    const resting = (POINTER_ANGLE - (physAngle % 360) + 360) % 360;
     const winner = Math.floor(resting / step) % n;
     const selected = products[winner];
 
+    // Roda diputar ke sudut yang menempatkan pusat irisan pemenang di 270°
     const center = (winner + 0.5) * step;
-    const align = ((360 - center) % 360 + 360) % 360;
+    const align = (POINTER_ANGLE - center + 360) % 360;
     const delta = (align - (rotation % 360) + 360) % 360;
     const next = rotation + turns * 360 + delta;
 
-    setResult(selected);
+    // Sembunyikan hasil lama selama berputar; tampilkan lagi saat berhenti
+    pending.current = { product: selected, idx: winner };
+    setResult(null);
+    setWinnerIdx(null);
     setRotation(next);
     setSpinning(true);
   };
@@ -80,15 +97,23 @@ export default function CoffeeWheel({ products }: CoffeeWheelProps) {
     const large = a1 - a0 > 180 ? 1 : 0;
     const name =
       product.name.length > 10 ? `${product.name.slice(0, 9)}…` : product.name;
+    const highlight = winnerIdx === i && !spinning;
 
     return {
       product,
       path: `M0,0 L${p1.x},${p1.y} A${R},${R} 0 ${large} 1 ${p2.x},${p2.y} Z`,
-      fill: product.isBestSeller ? AMBER : SLICE_COLORS[i % 2],
+      fill: highlight
+        ? WINNER_FILL
+        : product.isBestSeller
+          ? AMBER
+          : SLICE_COLORS[i % 2],
+      stroke: highlight ? CREAM : DARK,
+      strokeWidth: highlight ? 3.5 : 2,
       labelRotate: `rotate(${mid}, ${label.x}, ${label.y})`,
       labelX: label.x,
       labelY: label.y,
       name,
+      nameFill: highlight || product.isBestSeller ? DARK : CREAM,
     };
   });
 
@@ -128,16 +153,16 @@ export default function CoffeeWheel({ products }: CoffeeWheelProps) {
                 transition: `transform ${SPIN_DURATION_MS}ms cubic-bezier(0.12, 0.6, 0.1, 1)`,
               }}
             >
-              {slices.map(({ product, path, fill }) => (
+              {slices.map(({ product, path, fill, stroke, strokeWidth }) => (
                 <path
                   key={product.id}
                   d={path}
                   fill={fill}
-                  stroke={DARK}
-                  strokeWidth={2}
+                  stroke={stroke}
+                  strokeWidth={strokeWidth}
                 />
               ))}
-              {slices.map(({ product, labelRotate, labelX, labelY, name }) => (
+              {slices.map(({ product, labelRotate, labelX, labelY, name, nameFill }) => (
                 <text
                   key={`label-${product.id}`}
                   transform={labelRotate}
@@ -148,7 +173,7 @@ export default function CoffeeWheel({ products }: CoffeeWheelProps) {
                   fontSize={n > 10 ? 9.5 : 11}
                   fontFamily="'Courier Prime', monospace"
                   fontWeight="700"
-                  fill={product.isBestSeller ? DARK : CREAM}
+                  fill={nameFill}
                   opacity={0.92}
                 >
                   {name}
@@ -188,33 +213,52 @@ export default function CoffeeWheel({ products }: CoffeeWheelProps) {
           <Card
             key={`${result.id}-${rotation}`}
             hoverable
-            className="w-full sm:w-96 flex items-center gap-4 animate-slide-up"
+            className="w-full sm:w-[26rem] flex flex-col animate-slide-up"
           >
-            <img
-              src={resolveImage(result.image)}
-              alt={result.name}
-              className="w-20 h-20 rounded-md object-cover shrink-0"
-            />
-            <div className="min-w-0 flex-1">
-              <p className="text-[11px] font-label font-bold uppercase tracking-widest text-wood-light">
-                <i className="fa-solid fa-circle-check text-xs text-amber-600 mr-1.5" aria-hidden="true" />
-                {t('menu.spinResult')}
-              </p>
-              <div className="mt-1 flex items-baseline justify-between gap-2">
-                <h3 className="text-lg display-h3 text-wood-text truncate">
-                  {result.name}
-                </h3>
-                <p className="text-sm font-bold text-wood-text whitespace-nowrap">
-                  {currencyFormatter.format(result.price)}
+            <div className="flex items-center gap-4">
+              <img
+                src={resolveImage(result.image)}
+                alt={result.name}
+                className="w-20 h-20 rounded-md object-cover shrink-0"
+              />
+              <div className="min-w-0 flex-1">
+                <p className="text-[11px] font-label font-bold uppercase tracking-widest text-wood-light">
+                  <i className="fa-solid fa-circle-check text-xs text-amber-600 mr-1.5" aria-hidden="true" />
+                  {t('menu.spinResult')}
                 </p>
+                <div className="mt-1 flex items-baseline justify-between gap-2">
+                  <h3 className="text-lg display-h3 text-wood-text truncate">
+                    {result.name}
+                  </h3>
+                  <p className="text-sm font-bold text-wood-text whitespace-nowrap">
+                    {currencyFormatter.format(result.price)}
+                  </p>
+                </div>
+                {result.isBestSeller && (
+                  <span className="mt-1 inline-flex items-center gap-1 rounded-xs bg-wood-dark/60 border border-wood-mid/30 px-2 py-0.5 text-[10px] font-label font-bold uppercase text-wood-text/80">
+                    <i className="fa-solid fa-fire text-xs text-amber-600" aria-hidden="true" />
+                    {t('common.bestSeller')}
+                  </span>
+                )}
               </div>
-              {result.isBestSeller && (
-                <span className="mt-1 inline-flex items-center gap-1 rounded-xs bg-wood-dark/60 border border-wood-mid/30 px-2 py-0.5 text-[10px] font-label font-bold uppercase text-wood-text/80">
-                  <i className="fa-solid fa-fire text-xs text-amber-600" aria-hidden="true" />
-                  {t('common.bestSeller')}
-                </span>
-              )}
             </div>
+            {result.description[lang] && (
+              <p className="mt-3 pt-3 border-t border-wood-mid/30 text-sm text-wood-text/75 leading-relaxed">
+                {result.description[lang]}
+              </p>
+            )}
+            {result.tags.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {result.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-xs bg-wood-dark/60 border border-wood-mid/30 px-2.5 py-0.5 text-[11px] text-wood-text/80"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </Card>
         )}
       </div>
