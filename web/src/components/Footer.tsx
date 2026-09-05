@@ -1,4 +1,5 @@
-import { Coffee, Clock, Phone, Mail, MapPin, Camera, Languages } from 'lucide-react';
+import { Clock, Phone, Mail, MapPin, Camera, Languages } from 'lucide-react';
+import logo from '../assets/images/logo.png';
 import { useSettings } from '../services/api';
 import { useLanguage } from '../i18n/LanguageContext';
 import type { Language } from '../i18n/translations';
@@ -18,7 +19,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 text-wood-text font-display font-bold text-2xl">
-              <Coffee className="w-7 h-7 text-wood-text" />
+              <img src={logo} alt="Egi-Coffee" className="h-8 w-8 rounded object-cover" />
               Egi-Coffee
             </div>
             <p className="mt-3 text-sm text-wood-text/70 leading-relaxed">

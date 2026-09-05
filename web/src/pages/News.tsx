@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { CalendarDays, Coffee, Tag, ChevronDown } from 'lucide-react';
+import { CalendarDays, Tag, ChevronDown } from 'lucide-react';
 import Card from '../components/reusable/Card';
 import Skeleton from '../components/reusable/Skeleton';
+import { resolveImage } from '../utils/image';
 import { useNews } from '../services/api';
 import { useLanguage } from '../i18n/LanguageContext';
 
@@ -51,10 +52,11 @@ export default function News() {
             const isExpanded = expandedId === item.id;
             return (
               <Card key={item.id} hoverable className="flex flex-col animate-slide-up">
-                <Skeleton
-                  className="aspect-[16/9] -m-5 mb-4 rounded-b-none"
-                  icon={<Coffee className="w-10 h-10 text-wood-light/60" />}
-                  label={item.title[lang]}
+                <img
+                  src={resolveImage(item.image)}
+                  alt={item.title[lang]}
+                  loading="lazy"
+                  className="aspect-[16/9] -m-5 mb-4 w-full rounded-b-none object-cover"
                 />
 
                 <div className="flex flex-wrap items-center gap-3 text-xs text-wood-text/60">

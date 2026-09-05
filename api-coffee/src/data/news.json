@@ -26,7 +26,7 @@
         "This blend will be available starting next week at all outlets with a special price for loyal Egi-Coffee members."
       ]
     },
-    "image": ""
+    "image": "placeholder.webp"
   },
   {
     "id": "news-2",
@@ -55,7 +55,7 @@
         "Our first branch remains fully operational. We look forward to seeing you at both locations!"
       ]
     },
-    "image": ""
+    "image": "placeholder.webp"
   },
   {
     "id": "news-3",
@@ -84,6 +84,6 @@
         "Total prizes reach tens of millions of rupiah plus an internship opportunity at the Egi-Coffee roastery. Get your best practice ready!"
       ]
     },
-    "image": ""
+    "image": "placeholder.webp"
   }
 ]

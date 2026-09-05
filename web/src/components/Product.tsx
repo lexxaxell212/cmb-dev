@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Coffee, CupSoda, Croissant, Flame } from 'lucide-react';
 import Card from './reusable/Card';
 import Skeleton from './reusable/Skeleton';
+import { resolveImage } from '../utils/image';
 import { useLanguage } from '../i18n/LanguageContext';
 import type { TranslationKey } from '../i18n/translations';
 
@@ -118,10 +119,11 @@ export default function Product({
         {filtered.map((product) => (
           <Card key={product.id} hoverable className="flex flex-col animate-slide-up">
             <div className="relative -m-5 mb-4">
-              <Skeleton
-                className="aspect-[4/3] w-full rounded-b-none"
-                icon={<Coffee className="w-9 h-9 text-wood-light/60" />}
-                label={product.name}
+              <img
+                src={resolveImage(product.image)}
+                alt={product.name}
+                loading="lazy"
+                className="aspect-[4/3] w-full rounded-b-none object-cover"
               />
               {product.isBestSeller && (
                 <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-xs bg-wood-text text-wood-darkest px-3 py-1 text-[10px] font-label font-bold uppercase tracking-wider shadow">

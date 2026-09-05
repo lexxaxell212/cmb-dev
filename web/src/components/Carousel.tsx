@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight, Coffee } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
-import Skeleton from './reusable/Skeleton';
+import placeholder from '../assets/images/placeholder.webp';
 
 interface CarouselProps {
   slides?: string[];
@@ -43,10 +43,11 @@ export default function Carousel({
         >
           {slides.map((id) => (
             <div key={id} className="w-full shrink-0">
-              <Skeleton
-                className="aspect-[16/9] md:aspect-[21/9] w-full rounded-none"
-                icon={<Coffee className="w-12 h-12 md:w-16 md:h-16 text-wood-light/60" />}
-                label={`${t('common.slide')} ${id}`}
+              <img
+                src={placeholder}
+                alt={`${t('common.slide')} ${id}`}
+                loading="lazy"
+                className="aspect-[16/9] md:aspect-[21/9] w-full rounded-none object-cover"
               />
             </div>
           ))}

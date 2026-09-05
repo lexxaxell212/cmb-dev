@@ -5,7 +5,7 @@
     "category": "coffee",
     "price": 18000,
     "currency": "IDR",
-    "image": "",
+    "image": "placeholder.webp",
     "description": {
       "id": "Ekstrak kopi murni dengan crema tebal dan rasa bold yang menenangkan.",
       "en": "Pure coffee extraction with a thick crema and a comforting bold taste."
@@ -19,7 +19,7 @@
     "category": "coffee",
     "price": 20000,
     "currency": "IDR",
-    "image": "",
+    "image": "placeholder.webp",
     "description": {
       "id": "Espresso dengan air panas, ringan namun tetap berkarakter.",
       "en": "Espresso with hot water, light yet full of character."
@@ -33,7 +33,7 @@
     "category": "coffee",
     "price": 25000,
     "currency": "IDR",
-    "image": "",
+    "image": "placeholder.webp",
     "description": {
       "id": "Espresso bertemu steamed milk lembut, creamy di setiap tegukan.",
       "en": "Espresso meets silky steamed milk, creamy in every sip."
@@ -47,7 +47,7 @@
     "category": "coffee",
     "price": 25000,
     "currency": "IDR",
-    "image": "",
+    "image": "placeholder.webp",
     "description": {
       "id": "Perpaduan seimbang espresso, susu, dan foam yang aromatik.",
       "en": "A balanced blend of espresso, milk, and aromatic foam."
@@ -61,7 +61,7 @@
     "category": "coffee",
     "price": 32000,
     "currency": "IDR",
-    "image": "",
+    "image": "placeholder.webp",
     "description": {
       "id": "Manisnya karamel berpadu espresso dan susu kukus yang memanjakan.",
       "en": "Caramel sweetness meets espresso and steamed milk for a delightful treat."
@@ -75,7 +75,7 @@
     "category": "coffee",
     "price": 30000,
     "currency": "IDR",
-    "image": "",
+    "image": "placeholder.webp",
     "description": {
       "id": "Cokelat dan espresso dalam satu gelas hangat yang sempurna.",
       "en": "Chocolate and espresso in one perfectly warm cup."
@@ -89,7 +89,7 @@
     "category": "non-coffee",
     "price": 24000,
     "currency": "IDR",
-    "image": "",
+    "image": "placeholder.webp",
     "description": {
       "id": "Cokelat leleh hangat, lembut, dan menghangatkan hari.",
       "en": "Warm melted chocolate, smooth, and heartwarming."
@@ -103,7 +103,7 @@
     "category": "non-coffee",
     "price": 28000,
     "currency": "IDR",
-    "image": "",
+    "image": "placeholder.webp",
     "description": {
       "id": "Teh matcha premium dengan susu, segar dan kaya antioksidan.",
       "en": "Premium matcha tea with milk, fresh and rich in antioxidants."
@@ -117,7 +117,7 @@
     "category": "non-coffee",
     "price": 18000,
     "currency": "IDR",
-    "image": "",
+    "image": "placeholder.webp",
     "description": {
       "id": "Teh hitam dengan sentuhan bergamot yang harum dan menenangkan.",
       "en": "Black tea with a fragrant, soothing touch of bergamot."
@@ -131,7 +131,7 @@
     "category": "pastry",
     "price": 22000,
     "currency": "IDR",
-    "image": "",
+    "image": "placeholder.webp",
     "description": {
       "id": "Croissant renyah di luar, lembut berlapis di dalam.",
       "en": "Crispy on the outside, soft and flaky inside."
@@ -145,7 +145,7 @@
     "category": "pastry",
     "price": 35000,
     "currency": "IDR",
-    "image": "",
+    "image": "placeholder.webp",
     "description": {
       "id": "Kue keju lembut dengan crust graham yang klasik.",
       "en": "Creamy cheesecake with a classic graham crust."
@@ -159,7 +159,7 @@
     "category": "pastry",
     "price": 25000,
     "currency": "IDR",
-    "image": "",
+    "image": "placeholder.webp",
     "description": {
       "id": "Roti pisang homemade, lembut dengan aroma pisang alami.",
       "en": "Homemade banana bread, soft with a natural banana aroma."
