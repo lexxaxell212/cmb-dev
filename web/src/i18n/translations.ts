@@ -41,6 +41,7 @@ const id = {
   'product.header.all': 'Menu Andalan Kami',
   'product.searchPlaceholder': 'Cari produk...',
   'product.searchEmpty': 'Tidak ada produk yang cocok dengan pencarianmu.',
+  'common.clearSearch': 'Hapus pencarian',
 
   'menu.title': 'Menu Kami',
   'menu.subtitle':
@@ -138,6 +139,7 @@ const en: Record<TranslationKey, string> = {
   'product.header.all': 'Our Signature Menu',
   'product.searchPlaceholder': 'Search products...',
   'product.searchEmpty': 'No products match your search.',
+  'common.clearSearch': 'Clear search',
 
   'menu.title': 'Our Menu',
   'menu.subtitle':

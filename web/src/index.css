@@ -38,7 +38,7 @@ html {
      transparent agar tidak menutupi canvas ini. */
   min-height: 100%;
   background-color: #3d2818;
-  background-image: radial-gradient(circle at 50% 45%, #7a5638 0%, #5d3e2a 55%, #3d2818 100%),
+  background-image: radial-gradient(circle at 50% 85%, #7a5638fa 0%, #5d3e2afa 55%, #3d2818fa 100%),
                     repeating-linear-gradient(135deg, #704d3310, #704d3310 2px, transparent 2px, transparent 8px);
   background-repeat: no-repeat, repeat;
   background-size: cover, auto;
