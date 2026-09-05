@@ -119,148 +119,176 @@ export default function CoffeeWheel({ products }: CoffeeWheelProps) {
 
   return (
     <section className="w-full max-w-6xl mx-auto animate-fade-in">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl md:text-4xl display-h2 text-wood-text">
-          {t('menu.spinTitle')}
-        </h2>
-        <p className="mt-2 text-wood-text/70 max-w-xl mx-auto">
-          {t('menu.spinSubtitle')}
-        </p>
-      </div>
+      {/* Panel signage retro */}
+      <div className="relative rounded-lg border-2 border-wood-light/40 bg-wood-dark/80 p-4 md:p-8 shadow-xl shadow-wood-darkest/50">
+        {/* Sekrup pengikat di tiap sudut papan */}
+        <span className="absolute left-2.5 top-2.5 h-2 w-2 rounded-full bg-amber-400/90 shadow-[0_0_0_1px_rgba(0,0,0,0.55)]" aria-hidden="true" />
+        <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-amber-400/90 shadow-[0_0_0_1px_rgba(0,0,0,0.55)]" aria-hidden="true" />
+        <span className="absolute bottom-2.5 left-2.5 h-2 w-2 rounded-full bg-amber-400/90 shadow-[0_0_0_1px_rgba(0,0,0,0.55)]" aria-hidden="true" />
+        <span className="absolute bottom-2.5 right-2.5 h-2 w-2 rounded-full bg-amber-400/90 shadow-[0_0_0_1px_rgba(0,0,0,0.55)]" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-2xl rounded-md border border-wood-mid/40 bg-wood-dark/75 p-6 md:p-10 shadow-md shadow-wood-darkest/30 flex flex-col items-center gap-8">
-        {/* Panah penunjuk */}
-        <span
-          className={[
-            'absolute top-0 left-1/2 -translate-x-1/2 z-10',
-            'border-l-[10px] border-r-[10px] border-t-[16px]',
-            'border-l-transparent border-r-transparent border-t-[#d4a05a]',
-            'drop-shadow-[0_2px_4px_rgba(0,0,0,0.55)]',
-            spinning ? 'animate-wheel-hint' : '',
-          ].join(' ')}
-        />
-
-        {/* Roda */}
-        <div className="relative">
-          <svg
-            viewBox="-150 -150 300 300"
-            className="w-72 sm:w-80 md:w-96 h-auto drop-shadow-[0_18px_40px_rgba(0,0,0,0.45)]"
-          >
-            <g
-              style={{
-                transform: `rotate(${rotation}deg)`,
-                transformOrigin: '0 0',
-                transition: `transform ${SPIN_DURATION_MS}ms cubic-bezier(0.12, 0.6, 0.1, 1)`,
-              }}
-            >
-              {slices.map(({ product, path, fill, stroke, strokeWidth }) => (
-                <path
-                  key={product.id}
-                  d={path}
-                  fill={fill}
-                  stroke={stroke}
-                  strokeWidth={strokeWidth}
-                />
-              ))}
-              {slices.map(({ product, labelRotate, labelX, labelY, name, nameFill }) => (
-                <text
-                  key={`label-${product.id}`}
-                  transform={labelRotate}
-                  x={labelX}
-                  y={labelY}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  fontSize={n > 10 ? 9.5 : 11}
-                  fontFamily="'Courier Prime', monospace"
-                  fontWeight="700"
-                  fill={nameFill}
-                  opacity={0.92}
-                >
-                  {name}
-                </text>
-              ))}
-              <circle r={HUB} fill={AMBER} />
-              <circle r={HUB - 7} fill={DARK} />
-              <circle r={HUB - 14} fill="none" stroke={AMBER} strokeWidth={2} />
-            </g>
-          </svg>
-        </div>
-
-        {/* Tombol pemicu */}
-        <button
-          onClick={handleSpin}
-          disabled={spinning}
-          className={[
-            'inline-flex items-center gap-2 rounded-md px-6 py-3',
-            'text-sm font-label font-bold uppercase tracking-widest',
-            'bg-wood-text text-wood-darkest border border-wood-text',
-            'transition-all duration-200 cursor-pointer',
-            spinning
-              ? 'opacity-60 cursor-not-allowed'
-              : 'hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0',
-          ].join(' ')}
-        >
-          {spinning ? (
-            <i className="fa-solid fa-circle-notch animate-spin text-base" aria-hidden="true" />
-          ) : (
-            <i className="fa-solid fa-rotate-right text-base" aria-hidden="true" />
-          )}
-          {spinning ? t('menu.spinSpinning') : result ? t('menu.spinAgain') : t('menu.spinButton')}
-        </button>
-
-        {/* Hasil pilihan */}
-        {result && (
-          <Card
-            key={`${result.id}-${rotation}`}
-            hoverable
-            className="w-full sm:w-[26rem] flex flex-col animate-slide-up"
-          >
-            <div className="flex items-center gap-4">
-              <img
-                src={resolveImage(result.image)}
-                alt={result.name}
-                className="w-20 h-20 rounded-md object-cover shrink-0"
-              />
-              <div className="min-w-0 flex-1">
-                <p className="text-[11px] font-label font-bold uppercase tracking-widest text-wood-light">
-                  <i className="fa-solid fa-circle-check text-xs text-amber-600 mr-1.5" aria-hidden="true" />
-                  {t('menu.spinResult')}
-                </p>
-                <div className="mt-1 flex items-baseline justify-between gap-2">
-                  <h3 className="text-lg display-h3 text-wood-text truncate">
-                    {result.name}
-                  </h3>
-                  <p className="text-sm font-bold text-wood-text whitespace-nowrap">
-                    {currencyFormatter.format(result.price)}
-                  </p>
-                </div>
-                {result.isBestSeller && (
-                  <span className="mt-1 inline-flex items-center gap-1 rounded-xs bg-wood-dark/60 border border-wood-mid/30 px-2 py-0.5 text-[10px] font-label font-bold uppercase text-wood-text/80">
-                    <i className="fa-solid fa-fire text-xs text-amber-600" aria-hidden="true" />
-                    {t('common.bestSeller')}
-                  </span>
-                )}
-              </div>
+        {/* Mat dalam (double-frame) */}
+        <div className="rounded-md border border-wood-mid/40 p-5 md:p-8">
+          {/* Kepala papan */}
+          <div className="text-center">
+            <p className="text-[11px] font-label font-bold uppercase tracking-[0.35em] text-wood-light">
+              {t('menu.spinLabel')}
+            </p>
+            <h2 className="mt-2 text-2xl md:text-4xl display-h2 text-wood-text">
+              {t('menu.spinTitle')}
+            </h2>
+            <p className="mt-2 text-wood-text/70 max-w-xl mx-auto text-sm md:text-base">
+              {t('menu.spinSubtitle')}
+            </p>
+            <div className="mx-auto mt-5 flex items-center justify-center gap-3" aria-hidden="true">
+              <span className="h-px w-14 bg-wood-mid/50" />
+              <i className="fa-solid fa-mug-hot text-sm text-amber-600" aria-hidden="true" />
+              <span className="h-px w-14 bg-wood-mid/50" />
             </div>
-            {result.description[lang] && (
-              <p className="mt-3 pt-3 border-t border-wood-mid/30 text-sm text-wood-text/75 leading-relaxed">
-                {result.description[lang]}
-              </p>
-            )}
-            {result.tags.length > 0 && (
-              <div className="mt-3 flex flex-wrap gap-1.5">
-                {result.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-xs bg-wood-dark/60 border border-wood-mid/30 px-2.5 py-0.5 text-[11px] text-wood-text/80"
-                  >
-                    {tag}
+          </div>
+
+          {/* Roda di kiri, kontrol + hasil di kanan saat md+ */}
+          <div className="mt-8 flex flex-col items-center gap-10 md:flex-row md:items-start md:gap-12">
+            {/* Roda */}
+            <div className="relative shrink-0">
+              <span
+                className={[
+                  'absolute -top-1 left-1/2 -translate-x-1/2 z-10',
+                  'border-l-[10px] border-r-[10px] border-t-[16px]',
+                  'border-l-transparent border-r-transparent border-t-[#d4a05a]',
+                  'drop-shadow-[0_2px_4px_rgba(0,0,0,0.55)]',
+                  spinning ? 'animate-wheel-hint' : '',
+                ].join(' ')}
+              />
+              <svg
+                viewBox="-150 -150 300 300"
+                className="w-64 sm:w-72 md:w-80 h-auto drop-shadow-[0_18px_36px_rgba(0,0,0,0.5)]"
+              >
+                <g
+                  style={{
+                    transform: `rotate(${rotation}deg)`,
+                    transformOrigin: '0 0',
+                    transition: `transform ${SPIN_DURATION_MS}ms cubic-bezier(0.12, 0.6, 0.1, 1)`,
+                  }}
+                >
+                  {slices.map(({ product, path, fill, stroke, strokeWidth }) => (
+                    <path
+                      key={product.id}
+                      d={path}
+                      fill={fill}
+                      stroke={stroke}
+                      strokeWidth={strokeWidth}
+                    />
+                  ))}
+                  {slices.map(({ product, labelRotate, labelX, labelY, name, nameFill }) => (
+                    <text
+                      key={`label-${product.id}`}
+                      transform={labelRotate}
+                      x={labelX}
+                      y={labelY}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fontSize={n > 10 ? 9.5 : 11}
+                      fontFamily="'Courier Prime', monospace"
+                      fontWeight="700"
+                      fill={nameFill}
+                      opacity={0.92}
+                    >
+                      {name}
+                    </text>
+                  ))}
+                  {/* Cincin luar bergaris — kesan mesin jadul */}
+                  <circle r={144} fill="none" stroke={AMBER} strokeWidth={6} strokeDasharray="3 7" opacity={0.85} />
+                  <circle r={130} fill="none" stroke={DARK} strokeWidth={2} opacity={0.5} />
+                  {/* Medali tengah (bullseye) */}
+                  <circle r={HUB} fill={AMBER} />
+                  <circle r={HUB - 7} fill={DARK} />
+                  <circle r={HUB - 16} fill={AMBER} />
+                  <circle r={HUB - 20} fill={DARK} />
+                </g>
+              </svg>
+            </div>
+
+            {/* Tombol + hasil */}
+            <div className="flex w-full max-w-md flex-col items-center gap-6 md:flex-1 md:items-center">
+              <button
+                onClick={handleSpin}
+                disabled={spinning}
+                className={[
+                  'inline-flex items-center gap-2 rounded-md px-6 py-3',
+                  'text-sm font-label font-bold uppercase tracking-widest',
+                  'bg-wood-text text-wood-darkest border border-wood-text',
+                  'shadow-[0_4px_0_rgba(0,0,0,0.35)] transition-all duration-150 cursor-pointer',
+                  spinning
+                    ? 'opacity-60 cursor-not-allowed shadow-[0_2px_0_rgba(0,0,0,0.35)] translate-y-0.5'
+                    : 'hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(0,0,0,0.35)] active:translate-y-0.5 active:shadow-[0_2px_0_rgba(0,0,0,0.35)]',
+                ].join(' ')}
+              >
+                {spinning ? (
+                  <i className="fa-solid fa-circle-notch animate-spin text-base" aria-hidden="true" />
+                ) : (
+                  <i className="fa-solid fa-rotate-right text-base" aria-hidden="true" />
+                )}
+                {spinning ? t('menu.spinSpinning') : result ? t('menu.spinAgain') : t('menu.spinButton')}
+              </button>
+
+              {/* Hasil pilihan + stempel retro */}
+              {result && (
+                <div className="relative w-full max-w-md animate-slide-up">
+                  <span className="absolute -top-3 -right-1 z-20 rotate-6 rounded-sm border-2 border-dashed border-amber-600/80 bg-wood-darkest/95 px-2.5 py-1 text-[10px] font-label font-bold uppercase tracking-widest text-amber-500 shadow-md">
+                    {t('menu.spinResult')}
                   </span>
-                ))}
-              </div>
-            )}
-          </Card>
-        )}
+                  <Card
+                    key={`${result.id}-${rotation}`}
+                    hoverable
+                    className="w-full flex flex-col"
+                  >
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={resolveImage(result.image)}
+                        alt={result.name}
+                        className="w-20 h-20 rounded-md object-cover shrink-0"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-baseline justify-between gap-2">
+                          <h3 className="text-lg display-h3 text-wood-text truncate">
+                            {result.name}
+                          </h3>
+                          <p className="text-sm font-bold text-wood-text whitespace-nowrap">
+                            {currencyFormatter.format(result.price)}
+                          </p>
+                        </div>
+                        {result.isBestSeller && (
+                          <span className="mt-1 inline-flex items-center gap-1 rounded-xs bg-wood-dark/60 border border-wood-mid/30 px-2 py-0.5 text-[10px] font-label font-bold uppercase text-wood-text/80">
+                            <i className="fa-solid fa-fire text-xs text-amber-600" aria-hidden="true" />
+                            {t('common.bestSeller')}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    {result.description[lang] && (
+                      <p className="mt-3 pt-3 border-t border-wood-mid/30 text-sm text-wood-text/75 leading-relaxed">
+                        {result.description[lang]}
+                      </p>
+                    )}
+                    {result.tags.length > 0 && (
+                      <div className="mt-3 flex flex-wrap gap-1.5">
+                        {result.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="rounded-xs bg-wood-dark/60 border border-wood-mid/30 px-2.5 py-0.5 text-[11px] text-wood-text/80"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </Card>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

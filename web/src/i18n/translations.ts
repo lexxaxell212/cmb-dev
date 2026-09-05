@@ -44,6 +44,7 @@ const id = {
   'menu.subtitle':
     'Dari espresso hingga pastry hangat, semua disiapkan fresh setiap hari. Pilih kategori untuk mempermudah pencarian.',
   'menu.spinTitle': 'Kopi apa hari ini?',
+  'menu.spinLabel': '★ Roda Takdir ★',
   'menu.spinSubtitle':
     'Bingung milih kopi? Putar roda takdir, biar kecepatan putaran yang menentukan pilihanmu hari ini.',
   'menu.spinButton': 'Putar Roda',
@@ -137,6 +138,7 @@ const en: Record<TranslationKey, string> = {
   'menu.subtitle':
     'From espresso to warm pastries, everything is made fresh daily. Pick a category to browse easily.',
   'menu.spinTitle': "What's your coffee today?",
+  'menu.spinLabel': '★ Wheel of Fate ★',
   'menu.spinSubtitle':
     'Can\'t decide? Spin the wheel of fate — the spinning speed decides which coffee picks you today.',
   'menu.spinButton': 'Spin the Wheel',
