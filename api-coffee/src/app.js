@@ -7,6 +7,7 @@ const authRouter = require('./routes/auth');
 const productsRouter = require('./routes/products');
 const newsRouter = require('./routes/news');
 const settingsRouter = require('./routes/settings');
+const quotesRouter = require('./routes/quotes');
 const uploadRouter = require('./routes/upload');
 
 const app = express();
@@ -56,6 +57,7 @@ const requireAuthUnlessGet = (req, res, next) =>
 app.use('/api/products', requireAuthUnlessGet, productsRouter);
 app.use('/api/news', requireAuthUnlessGet, newsRouter);
 app.use('/api/settings', requireAuthUnlessGet, settingsRouter);
+app.use('/api/quotes', requireAuthUnlessGet, quotesRouter);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });

@@ -42,6 +42,13 @@ export const fetchProducts = (): Promise<ProductItem[]> => request<ProductItem[]
 export const fetchNews = (): Promise<NewsItem[]> => request<NewsItem[]>('/news');
 export const fetchSettings = (): Promise<ContactSettings> => request<ContactSettings>('/settings');
 
+export interface QuoteItem {
+  id: string;
+  text: { id: string; en: string };
+}
+
+export const fetchQuotes = (): Promise<QuoteItem[]> => request<QuoteItem[]>('/quotes');
+
 export interface ResourceState<T> {
   data: T | null;
   loading: boolean;
@@ -85,3 +92,4 @@ export function useResource<T>(fetcher: () => Promise<T>): ResourceState<T> {
 export const useProducts = () => useResource(fetchProducts);
 export const useNews = () => useResource(fetchNews);
 export const useSettings = () => useResource(fetchSettings);
+export const useQuotes = () => useResource(fetchQuotes);

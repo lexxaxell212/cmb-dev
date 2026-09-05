@@ -3,14 +3,16 @@ import Login from './components/Login';
 import Products from './views/Products';
 import News from './views/News';
 import Settings from './views/Settings';
+import Quotes from './views/Quotes';
 import { clearSession, getUsername, isAuthenticated, setOnUnauthorized } from './api';
 
-type Tab = 'products' | 'news' | 'settings';
+type Tab = 'products' | 'news' | 'settings' | 'quotes';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'products', label: 'Produk' },
   { id: 'news', label: 'Berita' },
   { id: 'settings', label: 'Pengaturan' },
+  { id: 'quotes', label: 'Kata-kata' },
 ];
 
 export default function App() {
@@ -81,6 +83,7 @@ export default function App() {
         {tab === 'products' && <Products key={reloadKey} onChanged={refresh} />}
         {tab === 'news' && <News key={reloadKey} onChanged={refresh} />}
         {tab === 'settings' && <Settings key={reloadKey} />}
+        {tab === 'quotes' && <Quotes key={reloadKey} onChanged={refresh} />}
       </main>
     </div>
   );

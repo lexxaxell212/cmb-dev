@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Card from './reusable/Card';
 import { resolveImage } from '../utils/image';
 import { useLanguage } from '../i18n/LanguageContext';
+import { useQuotes } from '../services/api';
 import type { ProductItem } from './Product';
 
 const SPIN_DURATION_MS = 3000;
@@ -33,11 +34,29 @@ interface CoffeeWheelProps {
 
 export default function CoffeeWheel({ products }: CoffeeWheelProps) {
   const { t, lang } = useLanguage();
+  const quotes = useQuotes();
   const [rotation, setRotation] = useState(0);
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState<ProductItem | null>(null);
   const [winnerIdx, setWinnerIdx] = useState<number | null>(null);
+  const [quote, setQuote] = useState<{ id: string; text: { id: string; en: string } } | null>(null);
   const pending = useRef<{ product: ProductItem; idx: number } | null>(null);
+
+  const pickQuote = () => {
+    const list = quotes.data ?? [];
+    if (list.length === 0) return null;
+    return list[Math.floor(Math.random() * list.length)];
+  };
+
+  // Pilih satu kata-kata acak begitu daftarnya tiba
+  useEffect(() => {
+    if (quotes.data && quotes.data.length > 0) {
+      Promise.resolve()
+        .then(() => setQuote(pickQuote()))
+        .catch(() => undefined);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quotes.data]);
 
   // Setelah putaran selesai barulah hasil ditampilkan
   useEffect(() => {
@@ -83,6 +102,7 @@ export default function CoffeeWheel({ products }: CoffeeWheelProps) {
     pending.current = { product: selected, idx: winner };
     setResult(null);
     setWinnerIdx(null);
+    setQuote(pickQuote());
     setRotation(next);
     setSpinning(true);
   };
@@ -149,8 +169,8 @@ export default function CoffeeWheel({ products }: CoffeeWheelProps) {
 
           {/* Roda di kiri, kontrol + hasil di kanan saat md+ */}
           <div className="mt-8 flex flex-col items-center gap-10 md:flex-row md:items-start md:gap-12">
-            {/* Roda */}
-            <div className="relative shrink-0">
+            {/* Roda + tombol pemicu */}
+            <div className="relative flex shrink-0 flex-col items-center gap-6">
               <span
                 className={[
                   'absolute -top-1 left-1/2 -translate-x-1/2 z-10',
@@ -207,10 +227,6 @@ export default function CoffeeWheel({ products }: CoffeeWheelProps) {
                   <circle r={HUB - 20} fill={DARK} />
                 </g>
               </svg>
-            </div>
-
-            {/* Tombol + hasil */}
-            <div className="flex w-full max-w-md flex-col items-center gap-6 md:flex-1 md:items-center">
               <button
                 onClick={handleSpin}
                 disabled={spinning}
@@ -218,15 +234,31 @@ export default function CoffeeWheel({ products }: CoffeeWheelProps) {
                   'inline-flex items-center gap-2 rounded-md px-6 py-3',
                   'text-sm font-label font-bold uppercase tracking-widest',
                   'bg-wood-text text-wood-darkest border border-wood-text',
-                  'shadow-[0_4px_0_rgba(0,0,0,0.35)] transition-all duration-150 cursor-pointer',
+                  'shadow-[0_4px_0_rgba(0,0,0,0.35)]',
+                  'transition-all duration-150 ease-out',
                   spinning
-                    ? 'opacity-60 cursor-not-allowed shadow-[0_2px_0_rgba(0,0,0,0.35)] translate-y-0.5'
-                    : 'hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(0,0,0,0.35)] active:translate-y-0.5 active:shadow-[0_2px_0_rgba(0,0,0,0.35)]',
+                    ? 'opacity-60 cursor-not-allowed'
+                    : 'cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(0,0,0,0.35)] active:translate-y-1 active:shadow-none',
                 ].join(' ')}
               >
                 <i className="fa-solid fa-rotate-right text-base" aria-hidden="true" />
                 {spinning ? t('menu.spinSpinning') : result ? t('menu.spinAgain') : t('menu.spinButton')}
               </button>
+            </div>
+
+            {/* Kolom kanan: kata-kata kosong atau kartu hasil */}
+            <div className="flex w-full max-w-md flex-col items-center justify-center gap-6 md:flex-1 md:py-8">
+              {!result && quote && (
+                <div className="relative w-full max-w-md rounded-md border-2 border-dashed border-amber-600/40 bg-wood-darkest/40 px-6 py-8 flex flex-col items-center text-center animate-fade-in">
+                  <i className="fa-solid fa-quote-left text-xl text-amber-600/80" aria-hidden="true" />
+                  <p className="mt-4 font-display italic text-wood-text/90 leading-relaxed">
+                    “{quote.text[lang]}”
+                  </p>
+                  <p className="mt-4 text-[10px] font-label font-bold uppercase tracking-[0.3em] text-wood-light">
+                    {t('menu.spinQuoteLabel')}
+                  </p>
+                </div>
+              )}
 
               {/* Hasil pilihan + stempel retro */}
               {result && (

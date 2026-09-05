@@ -42,3 +42,8 @@ export interface Settings {
   grabfood: string;
   hours: Hour[];
 }
+
+export interface Quote {
+  id: string;
+  text: Localized;
+}
