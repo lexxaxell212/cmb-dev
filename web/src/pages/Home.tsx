@@ -90,12 +90,12 @@ export default function Home({ onNavigate }: HomeProps) {
           )}
           {(news.data ?? []).slice(0, 3).map((item) => (
             <Card key={item.id} hoverable className="flex flex-col animate-slide-up">
-              <div className="relative aspect-[16/9] mb-4">
+              <div className="relative -mx-5 -mt-5 mb-4">
                 <img
                   src={resolveImage(item.image)}
                   alt={item.title[lang]}
                   loading="lazy"
-                  className="absolute -inset-x-5 -top-5 h-[calc(100%+1.25rem)] w-[calc(100%+2.5rem)] object-cover rounded-t-md rounded-b-none"
+                  className="aspect-[16/9] w-full rounded-t-md rounded-b-none object-cover"
                 />
               </div>
               <span className="text-[11px] font-label font-bold uppercase tracking-widest text-wood-text/50">
