@@ -50,7 +50,7 @@ export default function Login({ onSuccess }: { onSuccess: () => void }) {
               className={inputClass}
               value={baseUrl}
               onChange={(e) => setBase(e.target.value)}
-              placeholder="http://localhost:3001/api"
+              placeholder="https://coffee-admin.dzfee.id/api"
               autoComplete="off"
             />
           </Field>

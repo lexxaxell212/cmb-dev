@@ -2,7 +2,7 @@ const TOKEN_KEY = 'admin-token';
 const USER_KEY = 'admin-user';
 
 export function getBaseUrl(): string {
-  return localStorage.getItem('admin-api') || 'http://localhost:3001/api';
+  return localStorage.getItem('admin-api') || 'https://coffee-admin.dzfee.id/api';
 }
 
 export function setBaseUrl(url: string): void {
