@@ -50,7 +50,7 @@ export default function Login({ onSuccess }: { onSuccess: () => void }) {
               className={inputClass}
               value={baseUrl}
               onChange={(e) => setBase(e.target.value)}
-              placeholder="http://localhost:3000/api"
+              placeholder="http://localhost:3001/api"
               autoComplete="off"
             />
           </Field>

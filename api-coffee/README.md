@@ -1,6 +1,6 @@
 # api-coffee — Egi-Coffee REST API
 
-Backend REST API untuk situs Egi-Coffee. Dibangun dengan **Express + MongoDB (Mongoose)**, berjalan di **port 3000**.
+Backend REST API untuk situs Egi-Coffee. Dibangun dengan **Express + MongoDB (Mongoose)**, berjalan di **port 3001**.
 
 ## Struktur
 
@@ -38,7 +38,7 @@ npm run seed     # isi data awal (produk, berita, pengaturan) ke MongoDB
 
 | Var          | Default                                  | Keterangan                                  |
 | ------------ | ---------------------------------------- | ------------------------------------------- |
-| `PORT`       | `3000`                                   | Port server                                 |
+| `PORT`       | `3001`                                   | Port server                                 |
 | `HOST`       | `127.0.0.1`                              | Binding host (arahkan ke localhost saja + Nginx reverse proxy) |
 | `MONGO_URI`  | `mongodb://127.0.0.1:27017/egycoffee`    | Koneksi MongoDB                             |
 | `JWT_SECRET` | (wajib diisi)                            | Rahasia tanda tangan token JWT (`openssl rand -hex 32`) |
@@ -84,25 +84,25 @@ Admin disimpan di MongoDB dalam koleksi `admins` — **tapi Anda tidak perlu men
 
 ```bash
 # Login dulu untuk mendapat token
-curl -X POST http://localhost:3000/api/auth/login \
+curl -X POST http://localhost:3001/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"password-rahasia"}'
 # → {"token":"...."}
 
 # Tambah produk (id otomatis dari nama bila kosong)
-curl -X POST http://localhost:3000/api/products \
+curl -X POST http://localhost:3001/api/products \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <token>" \
   -d '{"name":"Americano","category":"coffee","price":20000,"description":{"id":"...","en":"..."},"tags":["Smooth"]}'
 
 # Update berita
-curl -X PUT http://localhost:3000/api/news/berita-1 \
+curl -X PUT http://localhost:3001/api/news/berita-1 \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <token>" \
   -d '{"title":{"id":"...","en":"..."}}'
 
 # Hapus produk
-curl -X DELETE http://localhost:3000/api/products/espresso \
+curl -X DELETE http://localhost:3001/api/products/espresso \
   -H "Authorization: Bearer <token>"
 ```
 

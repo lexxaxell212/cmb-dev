@@ -4,7 +4,7 @@ const app = require('./app');
 const { connectDB } = require('./db');
 const { ensureAdminFromEnv } = require('./bootstrap');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const HOST = process.env.HOST || '127.0.0.1';
 const MONGO_URI =
   process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/egycoffee';

@@ -26,7 +26,7 @@ export interface ContactSettings {
 }
 
 const API_URL: string =
-  (import.meta.env.VITE_API_URL as string | undefined) || 'http://localhost:3000/api';
+  (import.meta.env.VITE_API_URL as string | undefined) || 'http://localhost:3001/api';
 
 async function request<T>(path: string): Promise<T> {
   const res = await fetch(`${API_URL}${path}`);
