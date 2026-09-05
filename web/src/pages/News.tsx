@@ -52,12 +52,12 @@ export default function News() {
             const isExpanded = expandedId === item.id;
             return (
               <Card key={item.id} hoverable className="flex flex-col animate-slide-up">
-                <img
-                  src={resolveImage(item.image)}
-                  alt={item.title[lang]}
-                  loading="lazy"
-                  className="aspect-[16/9] -m-5 mb-4 w-full rounded-b-none object-cover"
-                />
+<img
+                src={resolveImage(item.image)}
+                alt={item.title[lang]}
+                loading="lazy"
+                className="aspect-[16/9] -m-5 mb-4 w-full rounded-t-md rounded-b-none object-cover"
+              />
 
                 <div className="flex flex-wrap items-center gap-3 text-xs text-wood-text/60">
                   <span className="inline-flex items-center gap-1.5 font-label font-bold">

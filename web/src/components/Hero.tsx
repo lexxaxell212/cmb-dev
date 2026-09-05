@@ -13,16 +13,16 @@ export default function Hero({ onNavigate }: HeroProps) {
   const { t } = useLanguage();
 
   return (
-    <section className="w-full relative overflow-hidden animate-fade-in">
-      {/* Background — full-width, same bleed as footer */}
+    <section className="w-[calc(100%+2rem)] md:w-[calc(100%+4rem)] -mx-4 md:-mx-8 relative overflow-hidden animate-fade-in">
+      {/* Background — full-bleed, spills out of Layout padding like a bootstrap container-fluid */}
       <img
         src={heroDesktop}
         alt=""
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover z-0"
       />
-      <div className="absolute inset-0 bg-wood-darkest/75 md:bg-gradient-to-r md:from-wood-darkest/95 md:via-wood-darkest/80 md:to-wood-darkest/45" />
+      <div className="absolute inset-0 bg-wood-darkest/75 md:bg-gradient-to-r md:from-wood-darkest/95 md:via-wood-darkest/80 md:to-wood-darkest/45 z-[1]" />
 
-      <div className="relative max-w-6xl mx-auto px-5 py-20 md:py-28 lg:py-32 grid lg:grid-cols-2 gap-10 items-center">
+      <div className="relative max-w-6xl mx-auto px-5 py-20 md:py-28 lg:py-32 grid lg:grid-cols-2 gap-10 items-center z-10">
         {/* Copy */}
         <div className="text-center lg:text-left">
           <span className="inline-flex items-center gap-2 rounded-sm bg-wood-dark/60 border border-wood-mid/40 px-4 py-1.5 text-xs md:text-sm font-label font-bold text-wood-text tracking-widest uppercase">
@@ -50,7 +50,7 @@ export default function Hero({ onNavigate }: HeroProps) {
           </div>
         </div>
 
-        {/* Product image overlay */}
+        {/* Product image overlay — explicitly above the background */}
         <div className="hidden lg:flex justify-center">
           <img
             src={icedCoffee}

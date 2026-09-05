@@ -123,7 +123,7 @@ export default function Product({
                 src={resolveImage(product.image)}
                 alt={product.name}
                 loading="lazy"
-                className="aspect-[4/3] w-full rounded-b-none object-cover"
+                className="aspect-[4/3] w-full rounded-t-md rounded-b-none object-cover"
               />
               {product.isBestSeller && (
                 <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-xs bg-wood-text text-wood-darkest px-3 py-1 text-[10px] font-label font-bold uppercase tracking-wider shadow">
