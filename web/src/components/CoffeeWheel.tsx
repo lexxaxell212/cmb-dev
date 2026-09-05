@@ -224,11 +224,7 @@ export default function CoffeeWheel({ products }: CoffeeWheelProps) {
                     : 'hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(0,0,0,0.35)] active:translate-y-0.5 active:shadow-[0_2px_0_rgba(0,0,0,0.35)]',
                 ].join(' ')}
               >
-                {spinning ? (
-                  <i className="fa-solid fa-circle-notch animate-spin text-base" aria-hidden="true" />
-                ) : (
-                  <i className="fa-solid fa-rotate-right text-base" aria-hidden="true" />
-                )}
+                <i className="fa-solid fa-rotate-right text-base" aria-hidden="true" />
                 {spinning ? t('menu.spinSpinning') : result ? t('menu.spinAgain') : t('menu.spinButton')}
               </button>
 
