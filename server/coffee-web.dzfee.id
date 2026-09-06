@@ -1,0 +1,62 @@
+server {
+	server_name coffee-web.dzfee.id;
+
+	root /var/www/coffee-web.dzfee.id/dist;
+	index index.html;
+
+	server_tokens off;
+	client_max_body_size 8M;
+
+	add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+	add_header X-Content-Type-Options "nosniff" always;
+	add_header X-Frame-Options "SAMEORIGIN" always;
+	add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+	add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()" always;
+
+	location /api/ {
+		proxy_pass http://127.0.0.1:3001;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto $scheme;
+	}
+
+	location /uploads/ {
+		proxy_pass http://127.0.0.1:3001;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto $scheme;
+	}
+
+	location / {
+		try_files $uri $uri/ /index.html;
+	}
+
+	location ~ /\.well-known/acme-challenge/ {
+		allow all;
+	}
+
+	location ~ /\. {
+		deny all;
+	}
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/coffee-admin.dzfee.id/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/coffee-admin.dzfee.id/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}server {
+    if ($host = coffee-web.dzfee.id) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+	server_name coffee-web.dzfee.id;
+
+    listen 80;
+    return 404; # managed by Certbot
+
+
+}
