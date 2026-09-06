@@ -148,6 +148,6 @@ npm run dev      # pengembangan (default http://localhost:5173)
 npm run build    # build produksi → dist/
 ```
 
-Build hasil (`admin/dist`) bisa disajikan lewat Nginx, lalu arahkan **API URL**-nya (di layar login) ke `https://api.egicoffee.id/api`.
+Build hasil (`admin/dist`) bisa disajikan lewat Nginx, lalu arahkan **API URL**-nya (di layar login).
 
 > **Lapisan keamanan yang disarankan:** panel ini memakai auth JWT pada API, tapi path `/admin` di server tetap disarankan dikunci di level Nginx (mis. auth basic/htpasswd) supaya file panel tidak bisa diakses sembarang orang.
